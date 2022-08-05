@@ -29,16 +29,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/login", "/js/**", "/registration").permitAll()
+                .antMatchers("/**","/login", "/js/**", "/registration", "/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll()
 //                .and()
 //                .rememberMe()
-                .and()
+//                .and()
                 .logout()
+                .logoutUrl("/logout")
                 .addLogoutHandler(logoutHandler)
                 .permitAll();
     }
