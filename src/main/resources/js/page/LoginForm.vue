@@ -6,6 +6,10 @@
         <h2 class="font-weight-thin">Log In</h2>
       </div>
 
+      <div class="text-center mb-1 text-red-darken-4">
+        <h3 class="font-weight-thin">{{ alert }}</h3>
+      </div>
+
       <v-text-field
           v-model="name"
           label="Name"
@@ -49,16 +53,24 @@ export default {
       show: false,
       name: '',
       password: '',
+      alert: ''
     }
   },
   methods: {
     async login(){
-      const request = {
-        username: this.name,
-        password: this.password
+      try {
+        const request = {
+          username: this.name,
+          password: this.password
+        }
+        await axios.post('/login', request);
+        //!!!!!!
+        window.location.href = '/'
       }
-      await axios.post('/login', request);
-      this.$router.push('/');
+      catch (e){
+        //!!!!!!
+        this.alert = 'Bad credentials'
+      }
     }
   }
 }

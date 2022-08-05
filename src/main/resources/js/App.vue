@@ -30,8 +30,15 @@ export default {
   },
   methods: {
     async logout() {
-      await axios.post('/logout', {})
-      this.$router.push('/login');
+      try {
+        await axios.post('/logout', {})
+        window.location.href = '/'
+      }
+      catch (e){
+        console.log(e)
+        // !!!!
+        window.location.href = '/'
+      }
     }
   }
 
