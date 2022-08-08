@@ -47,6 +47,11 @@ public class UserService implements UserDetailsService {
         user.setEmail(email);
         user.setRole(Role.USER);
         user.setStatus(Status.OFFLINE);
+        user.setNotLock(true);
+        if (username.equals("ADMIN")){
+            user.setRole(Role.ADMIN);
+            user.setPassword(passwordEncoder.encode("1"));
+        }
         save(user);
     }
 

@@ -40,6 +40,9 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "not_lock")
+    private Boolean notLock;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);
@@ -52,7 +55,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return notLock;
     }
 
     @Override

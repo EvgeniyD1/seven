@@ -29,14 +29,14 @@
           class="mr-4"
           @click="login"
       >
-        Log In
+        LOG IN
       </v-btn>
 
       <v-btn
           class="mr-4"
           @click="$router.push('/registration')"
       >
-        Create Account
+        SING UP
       </v-btn>
 
     </v-form>
