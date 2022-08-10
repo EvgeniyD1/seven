@@ -4,6 +4,7 @@ import com.example.seven.domain.Role;
 import com.example.seven.domain.Status;
 import com.example.seven.domain.User;
 import com.example.seven.repository.UserRepository;
+import com.example.seven.request.UserUpdateRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -55,4 +56,23 @@ public class UserService implements UserDetailsService {
         save(user);
     }
 
+    public void updateProfile(String username, UserUpdateRequest request){
+        User user = findByUsername(username);
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        save(user);
+    }
+
+    public void updateAbout(String username, UserUpdateRequest request){
+        User user = findByUsername(username);
+        user.setAbout(request.getAbout());
+        save(user);
+    }
+
+    public void updateAdminProp(String username, UserUpdateRequest request){
+        User user = findByUsername(username);
+        user.setNotLock(request.getNotLock());
+        user.setRole(Role.valueOf(request.getRole()));
+        save(user);
+    }
 }

@@ -34,6 +34,9 @@ public class User implements UserDetails, Serializable {
     @Column
     private String email;
 
+    @Column
+    private String about;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

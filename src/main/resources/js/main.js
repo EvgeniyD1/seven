@@ -6,6 +6,7 @@ import * as directives from 'vuetify/directives'
 import { aliases, md } from 'vuetify/iconsets/md'
 import App from './App.vue'
 import router from "./router/router";
+import store from "./store/store";
 
 const vuetify = createVuetify({
     components,
@@ -20,6 +21,7 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
+    .use(store)
     .use(router)
     .use(vuetify)
     .mount("#app");
