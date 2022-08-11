@@ -48,7 +48,7 @@ export default {
           role: this.role ? 'ADMIN' : 'USER'
         }
         await axios.put(url, request);
-        this.$emit('updateAdminProp', this.notLock, this.role);
+        this.$emit('updateAdminProp', this.notLock, this.role, false);
       } catch (e) {
         console.log(e)
       }

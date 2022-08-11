@@ -6,7 +6,7 @@
         <h2 class="font-weight-thin">Log In</h2>
       </div>
 
-      <div class="text-center mb-1 text-red-darken-4">
+      <div class="text-center mb-1 text-orange-lighten-2">
         <h3 class="font-weight-thin">{{ alert }}</h3>
       </div>
 
@@ -64,12 +64,10 @@ export default {
           password: this.password
         }
         await axios.post('/login', request);
-        //!!!!!!
         window.location.href = '/'
       }
       catch (e){
-        //!!!!!!
-        this.alert = 'Bad credentials'
+        this.alert = e.response.data.error
       }
     }
   }

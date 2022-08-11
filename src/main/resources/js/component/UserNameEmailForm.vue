@@ -65,7 +65,7 @@ export default {
           email: this.email
         }
         await axios.put(url, request);
-        this.$emit('updateP', this.name, this.email);
+        this.$emit('updateP', this.name, this.email, false);
         //todo
         //add logout here or change $router.store.profile
         if (this.$store.state.profile===this.nameProp){

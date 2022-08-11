@@ -9,12 +9,14 @@
         <h2 class="font-weight-thin">Registration</h2>
       </div>
 
-      <div class="text-center mb-1 text-red-darken-4">
-        <h3 class="font-weight-thin">{{ alert }}</h3>
+      <div class="text-center mb-1">
+        <div :class="alert.startsWith('A', 0) ? 'text-red-darken-4' : 'text-orange-lighten-2'">
+          <h3 class="font-weight-thin">{{ alert }}</h3>
+        </div>
       </div>
 
       <v-text-field
-          v-model="name"
+          v-model.trim="name"
           :counter="10"
           :rules="nameRules"
           label="Name"
@@ -22,14 +24,14 @@
       ></v-text-field>
 
       <v-text-field
-          v-model="email"
+          v-model.trim="email"
           :rules="emailRules"
           label="E-mail"
           required
       ></v-text-field>
 
       <v-text-field
-          v-model="password"
+          v-model.trim="password"
           :rules="passwordRules"
           :append-inner-icon="show ? 'visibility' : 'visibility_off'"
           @click:append-inner="() => (this.show = !this.show)"
@@ -39,7 +41,7 @@
       ></v-text-field>
 
       <v-text-field
-          v-model="confirmPassword"
+          v-model.trim="confirmPassword"
           :rules="confirmPasswordRules"
           :append-inner-icon="show ? 'visibility' : 'visibility_off'"
           @click:append-inner="() => (this.show = !this.show)"
@@ -96,21 +98,21 @@ export default {
   },
   methods: {
     async createUser() {
-      this.alert = '';
-      let url = '/users/' + this.name;
-      const response = await axios.get(url);
-      this.username = response.data.username;
-      if (this.username === this.name) {
-        this.alert = 'A user with the same name already exists';
-      } else {
+      try {
         const request = {
           username: this.name,
           password: this.password,
           email: this.email,
         }
-        await axios.post('/registration', request);
-        this.$router.push('/login')
+        let response = await axios.post('/registration', request);
+        this.alert = response.data
+        setTimeout(this.jump, 1000)
+      } catch (e) {
+        this.alert = e.response.data
       }
+    },
+    jump() {
+      return this.$router.push('/login')
     }
   }
 }

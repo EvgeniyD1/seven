@@ -1,35 +1,38 @@
 package com.example.seven.config;
 
 import com.example.seven.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@AllArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final CustomLogoutHandler logoutHandler;
+    private final RestAuthenticationEntryPoint entryPoint;
 
-    public WebSecurityConfig(UserService userService,
-                             PasswordEncoder passwordEncoder,
-                             CustomLogoutHandler logoutHandler) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.logoutHandler = logoutHandler;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(entryPoint).and()
                 .authorizeRequests()
-                .antMatchers("/**","/login", "/js/**", "/registration", "/users/**").permitAll()
+                .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers("/", "/login",  "/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
 //                .formLogin()

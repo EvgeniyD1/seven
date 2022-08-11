@@ -49,7 +49,7 @@ export default {
           about: this.about
         }
         await axios.put(url, request);
-        this.$emit('updateA', this.about);
+        this.$emit('updateA', this.about, false);
       }
       catch (e) {
         console.log(e)

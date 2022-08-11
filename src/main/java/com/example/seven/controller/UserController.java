@@ -1,8 +1,9 @@
 package com.example.seven.controller;
 
-import com.example.seven.domain.User;
-import com.example.seven.request.UserUpdateRequest;
+import com.example.seven.dto.UserDto;
+import com.example.seven.request.UserRequest;
 import com.example.seven.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,25 +25,30 @@ public class UserController {
 
     @PermitAll
     @GetMapping("/{username}")
-    public User findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+    public UserDto returnUserDto(@PathVariable String username) {
+        return userService.returnUserDto(username);
     }
 
+    //    @PreAuthorize("hasAuthority('ADMIN') or hasAnyAuthority('USER')")
+    @PermitAll
     @PutMapping("/{username}/updateProfile")
     public void updateProfile(@PathVariable String username,
-                              @RequestBody UserUpdateRequest request) {
+                              @RequestBody UserRequest request) {
         userService.updateProfile(username, request);
     }
 
+    //    @PreAuthorize("hasAuthority('ADMIN') or hasAnyAuthority('USER')")
+    @PermitAll
     @PutMapping("/{username}/updateAbout")
     public void updateAbout(@PathVariable String username,
-                            @RequestBody UserUpdateRequest request) {
+                            @RequestBody UserRequest request) {
         userService.updateAbout(username, request);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{username}/updateAdminProp")
     public void updateAdminProp(@PathVariable String username,
-                                @RequestBody UserUpdateRequest request) {
+                                @RequestBody UserRequest request) {
         userService.updateAdminProp(username, request);
     }
 }

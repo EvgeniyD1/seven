@@ -106,14 +106,7 @@ export default {
   components: {UserAboutForm, UserNameEmailForm, UserAdminForm},
   data() {
     return {
-      user: {
-        // username: '1',
-        // email: 'milo@milo.com',
-        // status: 'online',
-        // about: 'I\'m a thing. But, like most politicians, he promised more than he could deliver. You won\'t have time for sleeping, soldier, not with all the bed making you\'ll be doing. Then we\'ll go with that data file! Hey, you add a one and two zeros to that or we walk! You\'re going to do his laundry? I\'ve got to find a way to escape.\n',
-        // notLock: false,
-        // role: 'ADMIN'
-      },
+      user: {},
       show1: false,
       show2: false,
       show3: false,
@@ -123,16 +116,19 @@ export default {
 
   },
   methods: {
-    updateP(name, email) {
+    updateP(name, email, show) {
       this.user.username = name;
       this.user.email = email;
+      this.show1 = show;
     },
-    updateA(about) {
+    updateA(about, show) {
       this.user.about = about;
+      this.show2 = show;
     },
-    updateAdminProp(notLock, role) {
+    updateAdminProp(notLock, role, show) {
       this.user.notLock = notLock;
       this.user.role = role ? 'ADMIN' : 'USER';
+      this.show3 = show;
     },
     async loadUser() {
       try {

@@ -3,7 +3,7 @@ package com.example.seven.request;
 import lombok.Data;
 
 @Data
-public class UserCreateRequest {
+public class SingUpRequest {
 
     private String username;
     private String password;

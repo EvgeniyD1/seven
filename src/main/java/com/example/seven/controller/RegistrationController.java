@@ -1,8 +1,9 @@
 package com.example.seven.controller;
 
 import com.example.seven.request.AuthRequest;
-import com.example.seven.request.UserCreateRequest;
+import com.example.seven.request.SingUpRequest;
 import com.example.seven.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,8 +24,12 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public void createAccount(@RequestBody UserCreateRequest request){
-        userService.createAccount(request.getUsername(), request.getPassword(), request.getEmail());
+    public ResponseEntity<String> createAccount(@RequestBody SingUpRequest request){
+        if (userService.findByUsername(request.getUsername())!=null){
+            return ResponseEntity.badRequest().body("A user with the same name already exists!");
+        }
+        userService.createAccount(request);
+        return ResponseEntity.ok("Successful registration!");
     }
 
     @PostMapping("/login")
