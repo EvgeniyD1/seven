@@ -1,5 +1,7 @@
 package com.example.seven.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.seven.domain.Role;
 import com.example.seven.domain.Status;
 import com.example.seven.domain.User;
@@ -12,16 +14,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Cloudinary cloudinary;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       Cloudinary cloudinary) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.cloudinary = cloudinary;
     }
 
     @Override
@@ -35,10 +45,11 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    public UserDto returnUserDto(String username){
+
+    public UserDto returnUserDto(String username) {
         User user = findByUsername(username);
         return UserDto.builder()
                 .id(user.getId())
@@ -48,14 +59,15 @@ public class UserService implements UserDetailsService {
                 .role(user.getRole())
                 .status(user.getStatus())
                 .notLock(user.getNotLock())
+                .imgUrl(user.getImgUrl())
                 .build();
     }
 
-    public void save(User user){
+    public void save(User user) {
         userRepository.save(user);
     }
 
-    public void createAccount(SingUpRequest request){
+    public void createAccount(SingUpRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -70,23 +82,43 @@ public class UserService implements UserDetailsService {
         save(user);
     }
 
-    public void updateProfile(String username, UserRequest request){
+    public void updateProfile(String username, UserRequest request) {
         User user = findByUsername(username);
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         save(user);
     }
 
-    public void updateAbout(String username, UserRequest request){
+    public void updateAbout(String username, UserRequest request) {
         User user = findByUsername(username);
         user.setAbout(request.getAbout());
         save(user);
     }
 
-    public void updateAdminProp(String username, UserRequest request){
+    public void updateAdminProp(String username, UserRequest request) {
         User user = findByUsername(username);
         user.setNotLock(request.getNotLock());
         user.setRole(Role.valueOf(request.getRole()));
         save(user);
+    }
+
+    public String uploadImg(String username, MultipartFile img) {
+        User user = findByUsername(username);
+        if (user != null) {
+            try {
+                Map uploadResult = cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap());
+                String publicId = uploadResult.get("public_id").toString();
+                String cloudUrl = cloudinary.url().secure(true)
+                        .publicId(publicId)
+                        .generate();
+
+                user.setImgUrl(cloudUrl);
+                save(user);
+                return cloudUrl;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

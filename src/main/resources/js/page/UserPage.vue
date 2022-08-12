@@ -7,10 +7,17 @@
 
           <v-row justify="center" align="center">
             <v-col cols="12" sm="2">
-              <v-icon class="ml-3"
-                      icon="account_circle"
-                      size="64px"
-              ></v-icon>
+              <v-avatar size="x-large" class="ml-3">
+                <v-icon icon="account_circle"
+                        v-if="!user.imgUrl"
+                        size="64px"
+                ></v-icon>
+                <v-img v-else
+                       alt="Avatar"
+                       size="64px"
+                       :src=user.imgUrl>
+                </v-img>
+              </v-avatar>
             </v-col>
 
             <v-col cols="12" sm="10">
@@ -60,34 +67,53 @@
             </div>
           </v-expand-transition>
 
+          <v-expand-transition class="my-1" v-if="this.$store.state.profile===user.username">
+            <div v-show="show4">
+              <v-divider></v-divider>
+              <user-img-form :name-prop="user.username"
+                             @uploadImgE="uploadImgE">
+              </user-img-form>
+            </div>
+          </v-expand-transition>
+          
           <v-card-actions v-if="this.$store.state.profile">
             <v-spacer></v-spacer>
             <v-btn color="orange-lighten-2"
                    variant="text"
-                   @click="show1 = !show1; show2 = false; show3 = false"
+                   @click="show1 = !show1; show2 = false; show3 = false; show4 = false"
                    :append-icon="show1 ? 'expand_less' : 'expand_more'"
                    v-if="this.$store.state.profile===user.username"
             >
-              Edit profile
+              Profile
             </v-btn>
 
             <v-btn color="orange-lighten-2"
                    variant="text"
-                   @click="show2 = !show2; show1 = false; show3 = false"
+                   @click="show2 = !show2; show1 = false; show3 = false; show4 = false"
                    :append-icon="show2 ? 'expand_less' : 'expand_more'"
                    v-if="this.$store.state.profile===user.username"
             >
-              Edit about
+              About Me
             </v-btn>
 
             <v-btn color="orange-lighten-2"
                    variant="text"
-                   @click="show3 = !show3; show1 = false; show2 = false"
+                   @click="show4 = !show4; show1 = false; show2 = false; show3 = false"
+                   :append-icon="show4 ? 'expand_less' : 'expand_more'"
+                   v-if="this.$store.state.profile===user.username"
+            >
+              Avatar
+            </v-btn>
+
+            <v-btn color="orange-lighten-2"
+                   variant="text"
+                   @click="show3 = !show3; show1 = false; show2 = false; show4 = false"
                    :append-icon="show3 ? 'expand_less' : 'expand_more'"
                    v-if="this.$store.state.access==='ADMIN'"
             >
               Admin
             </v-btn>
+
           </v-card-actions>
         </v-card>
 
@@ -100,16 +126,18 @@
 import UserNameEmailForm from "../component/UserNameEmailForm.vue";
 import UserAboutForm from "../component/UserAboutForm.vue";
 import UserAdminForm from "../component/UserAdminForm.vue";
+import UserImgForm from "../component/UserImgForm.vue";
 import axios from "axios";
 
 export default {
-  components: {UserAboutForm, UserNameEmailForm, UserAdminForm},
+  components: {UserAboutForm, UserNameEmailForm, UserAdminForm, UserImgForm},
   data() {
     return {
       user: {},
       show1: false,
       show2: false,
       show3: false,
+      show4: false,
     }
   },
   mounted() {
@@ -130,6 +158,10 @@ export default {
       this.user.role = role ? 'ADMIN' : 'USER';
       this.show3 = show;
     },
+    uploadImgE(img, show){
+      this.user.imgUrl = img;
+      this.show4 = show;
+    },
     async loadUser() {
       try {
         let url = '/users/' + this.$route.params.username;
@@ -140,7 +172,8 @@ export default {
           status: response.data.status,
           about: response.data.about,
           notLock: response.data.notLock,
-          role: response.data.role
+          role: response.data.role,
+          imgUrl: response.data.imgUrl
         }
       } catch (e) {
         console.log(e)

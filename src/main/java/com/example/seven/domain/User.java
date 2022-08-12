@@ -46,6 +46,9 @@ public class User implements UserDetails, Serializable {
     @Column(name = "not_lock")
     private Boolean notLock;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);

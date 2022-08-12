@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.PermitAll;
 
@@ -43,6 +45,13 @@ public class UserController {
     public void updateAbout(@PathVariable String username,
                             @RequestBody UserRequest request) {
         userService.updateAbout(username, request);
+    }
+
+    @PermitAll
+    @PutMapping(value = "/{username}/uploadImg")
+    public String uploadImg(@PathVariable String username,
+                            @RequestParam("file") MultipartFile file) {
+        return userService.uploadImg(username, file);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -17,4 +17,5 @@ public class UserDto {
     private Role role;
     private Status status;
     private Boolean notLock;
+    private String imgUrl;
 }
