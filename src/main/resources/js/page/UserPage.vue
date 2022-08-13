@@ -3,7 +3,7 @@
     <v-row justify="start" align="center">
       <v-col cols="12" sm="3">
 
-        <v-card>
+        <v-card v-if="user.username">
 
           <v-row justify="center" align="center">
             <v-col cols="12" sm="2">
@@ -140,9 +140,6 @@ export default {
       show4: false,
     }
   },
-  mounted() {
-
-  },
   methods: {
     updateP(name, email, show) {
       this.user.username = name;
@@ -158,22 +155,27 @@ export default {
       this.user.role = role ? 'ADMIN' : 'USER';
       this.show3 = show;
     },
-    uploadImgE(img, show){
+    uploadImgE(img, show) {
       this.user.imgUrl = img;
       this.show4 = show;
     },
     async loadUser() {
       try {
         let url = '/users/' + this.$route.params.username;
-        let response = await axios.get(url);
-        this.user = {
-          username: response.data.username,
-          email: response.data.email,
-          status: response.data.status,
-          about: response.data.about,
-          notLock: response.data.notLock,
-          role: response.data.role,
-          imgUrl: response.data.imgUrl
+        if (this.$route.params.username !== undefined) {
+          let response = await axios.get(url);
+          if (response.data===''){
+            this.$router.push('/non-existing')
+          }
+          this.user = {
+            username: response.data.username,
+            email: response.data.email,
+            status: response.data.status,
+            about: response.data.about,
+            notLock: response.data.notLock,
+            role: response.data.role,
+            imgUrl: response.data.imgUrl
+          }
         }
       } catch (e) {
         console.log(e)
@@ -182,7 +184,11 @@ export default {
   },
   beforeMount() {
     this.loadUser()
-  }
+    this.$watch(() => this.$route.params, this.loadUser)
+  },
+  // mounted() {
+  //   this.loadUser()
+  // },
 }
 </script>
 

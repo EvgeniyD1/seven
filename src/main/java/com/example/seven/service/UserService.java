@@ -51,6 +51,9 @@ public class UserService implements UserDetailsService {
 
     public UserDto returnUserDto(String username) {
         User user = findByUsername(username);
+        if (user==null){
+            return null;
+        }
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())

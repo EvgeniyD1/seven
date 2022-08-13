@@ -3,6 +3,7 @@ import RegistrationForm from "../page/RegistrationForm.vue";
 import Main from "../page/Main.vue";
 import LoginForm from "../page/LoginForm.vue";
 import UserPage from "../page/UserPage.vue";
+import NotFound from "../page/NotFound.vue";
 
 const routes = [
     {
@@ -20,6 +21,14 @@ const routes = [
     {
         path: '/users/:username',
         component: UserPage
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound
+    },
+    {
+        path: '/non-existing',
+        component: NotFound
     }
 ]
 
