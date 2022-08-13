@@ -75,7 +75,7 @@
               </user-img-form>
             </div>
           </v-expand-transition>
-          
+
           <v-card-actions v-if="this.$store.state.profile">
             <v-spacer></v-spacer>
             <v-btn color="orange-lighten-2"
