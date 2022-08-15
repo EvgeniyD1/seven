@@ -17,9 +17,9 @@
     </v-app-bar>
 
     <v-main>
-      <router-view></router-view>
+<!--      <router-view></router-view>-->
 <!--      make rerender, not need $watch in component-->
-<!--      <router-view :key="$route.path"></router-view>-->
+      <router-view :key="$route.path"></router-view>
     </v-main>
 
   </v-app>

@@ -1,197 +1,104 @@
 <template>
   <v-container fluid>
-    <v-row justify="start" align="center">
-      <v-col cols="12" sm="3">
+    <v-row justify="start" align="start">
 
-        <v-card v-if="user.username">
-
-          <v-row justify="center" align="center">
-            <v-col cols="12" sm="2">
-              <v-avatar size="x-large" class="ml-3">
-                <v-icon icon="account_circle"
-                        v-if="!user.imgUrl"
-                        size="64px"
-                ></v-icon>
-                <v-img v-else
-                       alt="Avatar"
-                       size="64px"
-                       :src=user.imgUrl>
-                </v-img>
-              </v-avatar>
-            </v-col>
-
-            <v-col cols="12" sm="10">
-              <v-card-text>
-                <div>{{ user.username }}</div>
-                <div>{{ user.email }}</div>
-                <div>{{ user.status }}</div>
-                <div v-if="user.role==='ADMIN'" class="text-orange-lighten-2">ADMIN</div>
-                <div v-if="!user.notLock" class="text-orange-lighten-2">BLOCKED</div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-
-          <v-row class="text-justify ma-0">
-            <v-card-text>
-              {{ user.about }}
-            </v-card-text>
-          </v-row>
-
-          <v-expand-transition class="my-1" v-if="this.$store.state.profile===user.username">
-            <div v-show="show1">
-              <v-divider></v-divider>
-              <user-name-email-form :email-prop="user.email"
-                                    :name-prop="user.username"
-                                    @updateP="updateP"
-              ></user-name-email-form>
-            </div>
-          </v-expand-transition>
-
-          <v-expand-transition class="my-1" v-if="this.$store.state.profile===user.username">
-            <div v-show="show2">
-              <v-divider></v-divider>
-              <user-about-form :name-prop="user.username"
-                               @updateA="updateA"
-              ></user-about-form>
-            </div>
-          </v-expand-transition>
-
-          <v-expand-transition class="my-1" v-if="user.role && this.$store.state.access==='ADMIN'">
-            <div v-show="show3">
-              <v-divider></v-divider>
-              <user-admin-form :block-prop="user.notLock"
-                               :role-prop="user.role"
-                               :name-prop="user.username"
-                               @updateAdminProp="updateAdminProp"
-              ></user-admin-form>
-            </div>
-          </v-expand-transition>
-
-          <v-expand-transition class="my-1" v-if="this.$store.state.profile===user.username">
-            <div v-show="show4">
-              <v-divider></v-divider>
-              <user-img-form :name-prop="user.username"
-                             @uploadImgE="uploadImgE">
-              </user-img-form>
-            </div>
-          </v-expand-transition>
-
-          <v-card-actions v-if="this.$store.state.profile">
-            <v-spacer></v-spacer>
-            <v-btn color="orange-lighten-2"
-                   variant="text"
-                   @click="show1 = !show1; show2 = false; show3 = false; show4 = false"
-                   :append-icon="show1 ? 'expand_less' : 'expand_more'"
-                   v-if="this.$store.state.profile===user.username"
-            >
-              Profile
-            </v-btn>
-
-            <v-btn color="orange-lighten-2"
-                   variant="text"
-                   @click="show2 = !show2; show1 = false; show3 = false; show4 = false"
-                   :append-icon="show2 ? 'expand_less' : 'expand_more'"
-                   v-if="this.$store.state.profile===user.username"
-            >
-              About Me
-            </v-btn>
-
-            <v-btn color="orange-lighten-2"
-                   variant="text"
-                   @click="show4 = !show4; show1 = false; show2 = false; show3 = false"
-                   :append-icon="show4 ? 'expand_less' : 'expand_more'"
-                   v-if="this.$store.state.profile===user.username"
-            >
-              Avatar
-            </v-btn>
-
-            <v-btn color="orange-lighten-2"
-                   variant="text"
-                   @click="show3 = !show3; show1 = false; show2 = false; show4 = false"
-                   :append-icon="show3 ? 'expand_less' : 'expand_more'"
-                   v-if="this.$store.state.access==='ADMIN'"
-            >
-              Admin
-            </v-btn>
-
-          </v-card-actions>
-        </v-card>
-
+      <v-col cols="12" sm="6" md="5" lg="3">
+        <user-card :user="user"></user-card>
       </v-col>
+
+      <v-col cols="12" sm="6" md="7" lg="9">
+        <item-collections :collections="collections"></item-collections>
+        <div ref="observer"></div>
+      </v-col>
+
     </v-row>
   </v-container>
 </template>
 
 <script>
-import UserNameEmailForm from "../component/UserNameEmailForm.vue";
-import UserAboutForm from "../component/UserAboutForm.vue";
-import UserAdminForm from "../component/UserAdminForm.vue";
-import UserImgForm from "../component/UserImgForm.vue";
+import ItemCollections from "../component/ItemCollections.vue";
+import UserCard from "../component/UserCard.vue";
 import axios from "axios";
 
 export default {
-  components: {UserAboutForm, UserNameEmailForm, UserAdminForm, UserImgForm},
+  components: {ItemCollections, UserCard},
   data() {
     return {
       user: {},
-      show1: false,
-      show2: false,
-      show3: false,
-      show4: false,
+      collections: [],
+
+      pageNumber: 0,
+      totalPages: 0,
+      number: 0,
+
     }
   },
   methods: {
-    updateP(name, email, show) {
-      this.user.username = name;
-      this.user.email = email;
-      this.show1 = show;
-    },
-    updateA(about, show) {
-      this.user.about = about;
-      this.show2 = show;
-    },
-    updateAdminProp(notLock, role, show) {
-      this.user.notLock = notLock;
-      this.user.role = role ? 'ADMIN' : 'USER';
-      this.show3 = show;
-    },
-    uploadImgE(img, show) {
-      this.user.imgUrl = img;
-      this.show4 = show;
-    },
     async loadUser() {
       try {
         let url = '/users/' + this.$route.params.username;
-        if (this.$route.params.username !== undefined) {
-          let response = await axios.get(url);
-          if (response.data===''){
-            this.$router.push('/non-existing')
-          }
-          this.user = {
-            username: response.data.username,
-            email: response.data.email,
-            status: response.data.status,
-            about: response.data.about,
-            notLock: response.data.notLock,
-            role: response.data.role,
-            imgUrl: response.data.imgUrl
-          }
+        let response = await axios.get(url);
+        if (response.data === '') {
+          this.$router.push('/non-existing')
+        }
+        this.user = {
+          username: response.data.username,
+          email: response.data.email,
+          status: response.data.status,
+          about: response.data.about,
+          notLock: response.data.notLock,
+          role: response.data.role,
+          imgUrl: response.data.imgUrl
         }
       } catch (e) {
         console.log(e)
       }
     },
+
+    async loadCollections() {
+      if (this.number !== this.totalPages - 1) {
+        try {
+          let url = '/collections/' + this.$route.params.username;
+          let response = await axios.get(url, {
+            params: {
+              page: this.pageNumber
+            }
+          });
+          console.log(response.data)
+          this.collections = [...this.collections, ...response.data.content];
+
+          this.pageNumber = response.data.pageable.pageNumber + 1;
+          this.number = response.data.number;
+          this.totalPages = response.data.totalPages
+
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    },
   },
   beforeMount() {
     this.loadUser()
-    this.$watch(() => this.$route.params, this.loadUser)
   },
-  // mounted() {
-  //   this.loadUser()
-  // },
+  mounted() {
+    const options = {
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        this.loadCollections()
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
+  }
 }
 </script>
 
 <style scoped>
-
+/*.observer{*/
+/*  height: 10px;*/
+/*  background: red;*/
+/*}*/
 </style>
