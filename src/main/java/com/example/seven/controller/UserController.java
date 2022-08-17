@@ -31,7 +31,6 @@ public class UserController {
         return userService.returnUserDto(username);
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN') or hasAnyAuthority('USER')")
     @PermitAll
     @PutMapping("/{username}/updateProfile")
     public void updateProfile(@PathVariable String username,
@@ -39,7 +38,6 @@ public class UserController {
         userService.updateProfile(username, request);
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN') or hasAnyAuthority('USER')")
     @PermitAll
     @PutMapping("/{username}/updateAbout")
     public void updateAbout(@PathVariable String username,

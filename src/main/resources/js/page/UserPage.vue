@@ -4,10 +4,11 @@
 
       <v-col cols="12" sm="6" md="5" lg="3">
         <user-card :user="user"></user-card>
+        <cluster-form v-if="this.$store.state.profile===user.username"></cluster-form>
       </v-col>
 
       <v-col cols="12" sm="6" md="7" lg="9">
-        <item-collections :collections="collections"></item-collections>
+        <clusters :collections="collections"></clusters>
         <div ref="observer"></div>
       </v-col>
 
@@ -16,12 +17,13 @@
 </template>
 
 <script>
-import ItemCollections from "../component/ItemCollections.vue";
 import UserCard from "../component/UserCard.vue";
+import ClusterForm from "../component/ClusterForm.vue";
+import Clusters from "../component/Clusters.vue";
 import axios from "axios";
 
 export default {
-  components: {ItemCollections, UserCard},
+  components: {Clusters, ClusterForm, UserCard},
   data() {
     return {
       user: {},
@@ -41,6 +43,7 @@ export default {
         if (response.data === '') {
           this.$router.push('/non-existing')
         }
+        console.log(response.data)
         this.user = {
           username: response.data.username,
           email: response.data.email,

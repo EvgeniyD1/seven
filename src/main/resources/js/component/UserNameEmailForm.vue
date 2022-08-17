@@ -1,6 +1,6 @@
 <template>
     <v-form class="mx-3 mt-5"
-            v-model="valid"
+            ref="form"
             lazy-validation
     >
       <v-text-field
@@ -17,9 +17,8 @@
           required
       ></v-text-field>
       <v-btn
-          :disabled="!valid"
           class="mr-4"
-          @click="updateProfile"
+          @click="updateWithValidation"
       >
         Confirm
       </v-btn>
@@ -42,7 +41,7 @@ export default {
         v => !!v || 'E-mail is required',
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      valid: true,
+      valid: false,
     }
   },
   props: {
@@ -66,7 +65,6 @@ export default {
         }
         await axios.put(url, request);
         this.$emit('updateP', this.name, this.email, false);
-        //todo
         //add logout here or change $router.store.profile
         if (this.$store.state.profile===this.nameProp){
           await axios.post('/logout', {});
@@ -78,6 +76,14 @@ export default {
           window.location.href = '/';
         }
       }
+    },
+    updateWithValidation() {
+      this.$refs.form.validate().then(value => {
+        this.valid = value.valid
+        if (this.valid) {
+          this.updateProfile()
+        }
+      }).catch(e => console.log(e))
     }
   },
   beforeMount() {

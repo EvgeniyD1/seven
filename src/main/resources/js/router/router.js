@@ -4,6 +4,7 @@ import Main from "../page/Main.vue";
 import LoginForm from "../page/LoginForm.vue";
 import UserPage from "../page/UserPage.vue";
 import NotFound from "../page/NotFound.vue";
+import CollectionPage from "../page/ClusterPage.vue";
 
 const routes = [
     {
@@ -29,6 +30,10 @@ const routes = [
     {
         path: '/non-existing',
         component: NotFound
+    },
+    {
+        path: '/collections/:id',
+        component: CollectionPage
     }
 ]
 

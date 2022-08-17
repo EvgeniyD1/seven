@@ -1,6 +1,7 @@
 package com.example.seven.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,8 +16,8 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "item_collections")
-public class ItemCollection implements Serializable {
+@Table(name = "clusters")
+public class Cluster implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +35,9 @@ public class ItemCollection implements Serializable {
     @Column
     private String type;
 
+    @Column (name = "fields_type")
+    private String fieldsType;
+
     @Column(name = "field_one")
     private String fieldOne;
 
@@ -44,7 +48,7 @@ public class ItemCollection implements Serializable {
     private String fieldThree;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn(name = "user_id")
     private User user;
 }

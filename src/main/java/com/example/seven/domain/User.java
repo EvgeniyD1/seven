@@ -1,5 +1,7 @@
 package com.example.seven.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +35,7 @@ public class User implements UserDetails, Serializable {
     private String username;
 
     @Column
+    @JsonIgnore
     private String password;
 
     @Column
@@ -53,9 +56,9 @@ public class User implements UserDetails, Serializable {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<ItemCollection> items;
+    private List<Cluster> clusters;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
