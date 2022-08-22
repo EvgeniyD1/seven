@@ -25,7 +25,9 @@
     <tbody>
     <tr v-for="item in itemProps" :key="itemProps.id" >
       <td>
-        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+        <v-img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+               @click="$router.push('/items/' + item.id)"></v-img>
+        <v-img v-if="item.imgUrl" :src=item.imgUrl
                @click="$router.push('/items/' + item.id)"></v-img>
       </td>
       <td>{{ item.name }}</td>

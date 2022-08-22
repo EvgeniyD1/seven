@@ -49,6 +49,9 @@ public class Item implements Serializable {
     @Column
     private String tag;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @Column(name = "fields_type")
     @Enumerated(EnumType.STRING)
     private FieldTypes fieldsType;

@@ -16,6 +16,7 @@
       </v-card-title>
     </div>
 
+<!--    todo type-->
     <v-card-subtitle>
       {{ collection.type }}
     </v-card-subtitle>

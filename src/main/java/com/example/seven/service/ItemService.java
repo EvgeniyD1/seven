@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -24,6 +25,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ClusterRepository clusterRepository;
+    private final CloudService cloudService;
 
     public Page<Item> findAll(Pageable pageable, Long id) {
         return itemRepository.findAllByClusterId(pageable, id);
@@ -71,6 +73,66 @@ public class ItemService {
                 return itemRepository.save(item);
             }
             default: return null;
+        }
+    }
+
+    public Item updateItem(Long id, ItemRequest request){
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item!=null){
+            item.setName(request.getName());
+            item.setTag(request.getTag());
+            switch (item.getFieldsType()) {
+                case INTEGER: {
+                    item.getTypeOne().setFieldOne(Integer.valueOf(request.getFieldOne()));
+                    item.getTypeOne().setFieldTwo(Integer.valueOf(request.getFieldTwo()));
+                    item.getTypeOne().setFieldThree(Integer.valueOf(request.getFieldThree()));
+                    return itemRepository.save(item);
+                }
+                case TEXT: {
+                    item.getTypeTwo().setFieldOne(request.getFieldOne());
+                    item.getTypeTwo().setFieldTwo(request.getFieldTwo());
+                    item.getTypeTwo().setFieldThree(request.getFieldThree());
+                    return itemRepository.save(item);
+                }
+                case MULTILINE_TEXT: {
+                    item.getTypeThree().setFieldOne(request.getFieldOne());
+                    item.getTypeThree().setFieldTwo(request.getFieldTwo());
+                    item.getTypeThree().setFieldThree(request.getFieldThree());
+                    return itemRepository.save(item);
+                }
+                case BOOLEAN: {
+                    item.getTypeFour().setFieldOne(Boolean.valueOf(request.getFieldOne()));
+                    item.getTypeFour().setFieldTwo(Boolean.valueOf(request.getFieldTwo()));
+                    item.getTypeFour().setFieldThree(Boolean.valueOf(request.getFieldThree()));
+                    return itemRepository.save(item);
+                }
+                case DATE: {
+                    item.getTypeFive().setFieldOne(new Date(request.getFieldOne()));
+                    item.getTypeFive().setFieldTwo(new Date(request.getFieldTwo()));
+                    item.getTypeFive().setFieldThree(new Date(request.getFieldThree()));
+                    return itemRepository.save(item);
+                }
+                default: return null;
+            }
+        }
+        return null;
+    }
+
+    public String uploadImg(Long id, MultipartFile file){
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item!=null){
+            String url = cloudService.getUrl(file);
+            item.setImgUrl(url);
+            itemRepository.save(item);
+            return url;
+        }
+        return null;
+    }
+
+    public void delete(Long id){
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item!=null){
+            itemRepository.delete(item);
         }
     }
 
