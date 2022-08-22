@@ -3,9 +3,13 @@ package com.example.seven.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +40,8 @@ public class Cluster implements Serializable {
     private String type;
 
     @Column (name = "fields_type")
-    private String fieldsType;
+    @Enumerated(EnumType.STRING)
+    private FieldTypes fieldsType;
 
     @Column(name = "field_one")
     private String fieldOne;
@@ -49,6 +54,7 @@ public class Cluster implements Serializable {
 
     @ManyToOne
     @JsonManagedReference
+//    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "user_id")
     private User user;
 }

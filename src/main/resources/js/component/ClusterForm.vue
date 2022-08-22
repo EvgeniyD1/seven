@@ -16,7 +16,7 @@
          append-icon="delete"
   >Del</v-btn>
 
-  <v-expand-transition class="my-1">
+  <v-expand-transition>
     <v-card v-show="show1">
       <v-form class="mx-3 mt-5"
               ref="form"
@@ -112,11 +112,11 @@ export default {
       show2: false,
       name: '',
       fieldsType: [
-        'Integer',
-        'Text',
-        'Multiline text',
-        'Boolean',
-        'Date'
+        'INTEGER',
+        'TEXT',
+        'MULTILINE_TEXT',
+        'BOOLEAN',
+        'DATE'
       ],
       select: null,
       nameRules: [

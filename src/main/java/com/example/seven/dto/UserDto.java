@@ -24,6 +24,6 @@ public class UserDto implements Serializable {
     private Status status;
     private Boolean notLock;
     private String imgUrl;
-    @JsonBackReference
-    private List<ClusterDto> clusters;
+//    @JsonBackReference
+//    private List<ClusterDto> clusters;
 }

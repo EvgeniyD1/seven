@@ -5,3 +5,5 @@ yarn add -D @babel/core @babel/preset-env babel-loader css-loader sass sass-load
 yarn add material-design-icons-iconfont -D
 
 yarn add -D webpack-merge clean-webpack-plugin
+
+yarn add v-calendar@next

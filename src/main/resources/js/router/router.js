@@ -5,6 +5,8 @@ import LoginForm from "../page/LoginForm.vue";
 import UserPage from "../page/UserPage.vue";
 import NotFound from "../page/NotFound.vue";
 import CollectionPage from "../page/ClusterPage.vue";
+import ItemPage from "../page/ItemPage.vue";
+import ErrorPage from "../page/ErrorPage.vue";
 
 const routes = [
     {
@@ -34,6 +36,14 @@ const routes = [
     {
         path: '/collections/:id',
         component: CollectionPage
+    },
+    {
+        path: '/items/:id',
+        component: ItemPage
+    },
+    {
+        path: '/error',
+        component: ErrorPage
     }
 ]
 
