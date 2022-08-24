@@ -4,7 +4,7 @@
               v-if="oneItem.id"
   ></item-table>
   <v-divider></v-divider>
-  <div class="mx-3"
+  <div class="mx-3 my-1"
        v-if="oneItem.id && (this.$store.state.profile===oneItem.cluster.user.username || this.$store.state.access==='ADMIN')">
     <item-form :collection="oneItem.cluster"
                :edit-form-prop="true"
@@ -13,6 +13,16 @@
                @getImg="getImg"
     ></item-form>
   </div>
+  <h3 align="center" class="my-1">Comments</h3>
+  <div class="mx-3 my-1" v-if="oneItem.id && this.$store.state.profile">
+    <comment-form :item-id-prop="oneItem.id"
+                  @getComment="getComment"></comment-form>
+  </div>
+  <div class="mx-3 my-1">
+    <comments :comments-prop="comments"
+              @deletedComment="deletedComment"></comments>
+    <div ref="observer"></div>
+  </div>
 </template>
 
 <script>
@@ -20,13 +30,21 @@ import ImgForm from "../component/ImgForm.vue";
 import ItemTable from "../component/ItemTable.vue";
 import axios from "axios";
 import ItemForm from "../component/ItemForm.vue";
+import CommentForm from "../component/CommentForm.vue";
+import Comments from "../component/Comments.vue";
+
 
 export default {
-  components: {ItemForm, ItemTable, ImgForm},
+  components: {Comments, CommentForm, ItemForm, ItemTable, ImgForm},
   data() {
     return {
       items: [],
-      oneItem: {}
+      oneItem: {},
+      comments: [],
+
+      pageNumber: 0,
+      totalPages: 0,
+      number: 0,
     }
   },
   methods: {
@@ -45,15 +63,54 @@ export default {
         // this.$router.push('/error');
       }
     },
+    async loadComments() {
+      if (this.number !== this.totalPages - 1) {
+        try {
+          let url = '/comments/item/' + this.$route.params.id;
+          let response = await axios.get(url, {
+            params: {
+              page: this.pageNumber
+            }
+          })
+          console.log(response.data)
+
+          this.comments = [...this.comments, ...response.data.content];
+          this.pageNumber = response.data.pageable.pageNumber + 1;
+          this.number = response.data.number;
+          this.totalPages = response.data.totalPages;
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    },
     updatedItem(data) {
       this.items[0] = data
     },
     getImg(data) {
       this.items[0].imgUrl = data;
+    },
+    getComment(data) {
+      this.comments.unshift(data);
+    },
+    deletedComment(data){
+      this.comments = this.comments.filter(comment => comment.id!==data.id)
     }
   },
   beforeMount() {
     this.getItem()
+  },
+  mounted() {
+    const options = {
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        this.loadComments()
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
   }
 }
 </script>

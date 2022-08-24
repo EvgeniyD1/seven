@@ -59,26 +59,31 @@ public class Item implements Serializable {
     @JsonManagedReference
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    /*integer fields*/
     private TypeOne typeOne;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    /*text fields*/
     private TypeTwo typeTwo;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    /*multiline text fields*/
     private TypeThree typeThree;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    /*boolean fields*/
     private TypeFour typeFour;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    /*date fields*/
     private TypeFive typeFive;
 
     @ManyToOne

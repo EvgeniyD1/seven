@@ -1,6 +1,5 @@
 package com.example.seven.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import java.io.Serializable;

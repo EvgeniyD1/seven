@@ -5,6 +5,12 @@
       <th class="text-left" width="200">
         Img
       </th>
+      <th class="text-left" v-if="!collectionPage">
+        Author
+      </th>
+      <th class="text-left" v-if="!collectionPage">
+        Collection
+      </th>
       <th class="text-left">
         Name
       </th>
@@ -30,6 +36,8 @@
         <v-img v-if="item.imgUrl" :src=item.imgUrl
                @click="$router.push('/items/' + item.id)"></v-img>
       </td>
+      <td @click="$router.push('/users/' + item.cluster.user.username)" v-if="!collectionPage">{{item.cluster.user.username}}</td>
+      <td @click="$router.push('/collections/' + item.cluster.id)" v-if="!collectionPage">{{item.cluster.name}}</td>
       <td>{{ item.name }}</td>
       <td>{{ item.tag }}</td>
 
@@ -67,6 +75,11 @@ export default {
     itemProps:{
       type: Array,
       required: true
+    },
+    collectionPage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {

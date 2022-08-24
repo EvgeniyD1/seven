@@ -1,6 +1,7 @@
 package com.example.seven.domain.item;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,12 +27,15 @@ public class TypeFive implements Serializable {
     private Long id;
 
     @Column(name = "field_one")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private Date fieldOne;
 
     @Column(name = "field_two")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private Date fieldTwo;
 
     @Column(name = "field_three")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private Date fieldThree;
 
     @JsonBackReference
