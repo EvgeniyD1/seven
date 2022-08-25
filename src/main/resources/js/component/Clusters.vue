@@ -1,9 +1,12 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="6" md="4" lg="3"
+    <v-col :cols="isUserPage ? 6 : ''"
+           :sm="isUserPage ? 6 : ''"
+           :md="isUserPage ? 4 : ''"
+           :lg="isUserPage ? 3 : ''"
            v-for="collection in collections"
-           :key="collection">
-      <cluster :collection="collection"></cluster>
+           :key="collection.id">
+      <cluster :collection="collection" :is-user-page="isUserPage"></cluster>
     </v-col>
   </v-row>
 
@@ -18,6 +21,11 @@ export default {
     collections: {
       type: Array,
       required: true
+    },
+    isUserPage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }

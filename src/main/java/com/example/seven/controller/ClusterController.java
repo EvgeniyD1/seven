@@ -35,6 +35,12 @@ public class ClusterController {
         return clusterService.findAll(pageable, username);
     }
 
+    @GetMapping()
+    public Page<Cluster> findAllSortByItemsSize(
+            @PageableDefault(size = 5) Pageable pageable) {
+        return clusterService.findAllOrderByItemsSize(pageable);
+    }
+
     @GetMapping("/collection/{id}")
     public Cluster findOne(@PathVariable Long id) {
         return clusterService.findOne(id);

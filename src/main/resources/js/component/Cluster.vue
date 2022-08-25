@@ -11,11 +11,16 @@
       ></v-img>
     </div>
     <v-card-title>
-      <div class="text-orange-accent-4" @click="$router.push('/users/' + collection.user.username)">{{collection.user.username}}</div>
+      <div class="text-orange-accent-4"
+           @click="$router.push('/users/' + collection.user.username)"
+           v-if="!isUserPage"
+      >
+        {{ collection.user.username }}
+      </div>
       <div>{{ collection.name }}</div>
     </v-card-title>
 
-<!--    todo type-->
+    <!--    todo type-->
     <v-card-subtitle>
       {{ collection.type }}
     </v-card-subtitle>
@@ -34,6 +39,11 @@ export default {
     collection: {
       type: Object,
       required: true
+    },
+    isUserPage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }

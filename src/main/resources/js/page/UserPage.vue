@@ -8,7 +8,7 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="7" lg="9">
-        <clusters :collections="collections"></clusters>
+        <clusters :collections="collections" :is-user-page="true"></clusters>
         <div ref="observer"></div>
       </v-col>
 

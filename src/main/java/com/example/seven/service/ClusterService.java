@@ -60,4 +60,8 @@ public class ClusterService {
         Cluster cluster = findOne(id);
         clusterRepository.delete(cluster);
     }
+
+    public Page<Cluster> findAllOrderByItemsSize(Pageable pageable){
+        return clusterRepository.findAllOrderByItemsSize(pageable);
+    }
 }

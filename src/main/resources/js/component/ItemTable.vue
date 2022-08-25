@@ -36,8 +36,15 @@
         <v-img v-if="item.imgUrl" :src=item.imgUrl
                @click="$router.push('/items/' + item.id)"></v-img>
       </td>
-      <td @click="$router.push('/users/' + item.cluster.user.username)" v-if="!collectionPage">{{item.cluster.user.username}}</td>
-      <td @click="$router.push('/collections/' + item.cluster.id)" v-if="!collectionPage">{{item.cluster.name}}</td>
+
+      <td @click="$router.push('/users/' + item.cluster.user.username)"
+          v-if="!collectionPage"
+      >{{item.cluster.user.username}}</td>
+
+      <td @click="$router.push('/collections/' + item.cluster.id)"
+          v-if="!collectionPage"
+      >{{item.cluster.name}}</td>
+
       <td>{{ item.name }}</td>
       <td>{{ item.tag }}</td>
 
@@ -80,11 +87,6 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
-  },
-  data () {
-    return {
-
     }
   },
 }

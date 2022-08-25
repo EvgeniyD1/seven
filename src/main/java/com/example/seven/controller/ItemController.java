@@ -26,11 +26,17 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @GetMapping("/collection/{id}")
+    @GetMapping()
     public Page<Item> findAll(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return itemService.findAll(pageable);
+    }
+
+    @GetMapping("/collection/{id}")
+    public Page<Item> findAllByClusterId(
             @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long id) {
-        return itemService.findAll(pageable, id);
+        return itemService.findAllByClusterId(pageable, id);
     }
 
     @GetMapping("{id}")

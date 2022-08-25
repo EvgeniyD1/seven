@@ -13,7 +13,8 @@
                @getImg="getImg"
     ></item-form>
   </div>
-  <h3 align="center" class="my-1">Comments</h3>
+  <div align="center" class="my-3 text-h3">Comments</div>
+  <div align="center" class="my-1 text-h5" v-if="!this.$store.state.profile">Sign in to leave a comment</div>
   <div class="mx-3 my-1" v-if="oneItem.id && this.$store.state.profile">
     <comment-form :item-id-prop="oneItem.id"
                   @getComment="getComment"></comment-form>

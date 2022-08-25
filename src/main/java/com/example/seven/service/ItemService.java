@@ -27,7 +27,11 @@ public class ItemService {
     private final ClusterRepository clusterRepository;
     private final CloudService cloudService;
 
-    public Page<Item> findAll(Pageable pageable, Long id) {
+    public Page<Item> findAll(Pageable pageable){
+        return itemRepository.findAll(pageable);
+    }
+
+    public Page<Item> findAllByClusterId(Pageable pageable, Long id) {
         return itemRepository.findAllByClusterId(pageable, id);
     }
 
