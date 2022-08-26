@@ -7,6 +7,7 @@ import NotFound from "../page/NotFound.vue";
 import CollectionPage from "../page/ClusterPage.vue";
 import ItemPage from "../page/ItemPage.vue";
 import ErrorPage from "../page/ErrorPage.vue";
+import SearchPage from "../page/SearchPage.vue";
 
 const routes = [
     {
@@ -44,6 +45,10 @@ const routes = [
     {
         path: '/error',
         component: ErrorPage
+    },
+    {
+        path: '/search/:text',
+        component: SearchPage
     }
 ]
 

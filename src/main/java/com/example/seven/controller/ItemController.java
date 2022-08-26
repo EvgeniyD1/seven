@@ -28,7 +28,7 @@ public class ItemController {
 
     @GetMapping()
     public Page<Item> findAll(
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable){
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return itemService.findAll(pageable);
     }
 
@@ -37,6 +37,13 @@ public class ItemController {
             @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long id) {
         return itemService.findAllByClusterId(pageable, id);
+    }
+
+    @GetMapping("/full/{text}")
+    public Page<Item> fullSearch(
+            @PageableDefault(size = 10) Pageable pageable,
+            @PathVariable String text) {
+        return itemService.fullSearch(pageable, text);
     }
 
     @GetMapping("{id}")
@@ -52,18 +59,18 @@ public class ItemController {
 
     @PutMapping("/{id}")
     public Item update(@PathVariable Long id,
-                       @RequestBody ItemRequest request){
+                       @RequestBody ItemRequest request) {
         return itemService.updateItem(id, request);
     }
 
     @PutMapping("/uploadImg/{id}")
     public String uploadImg(@PathVariable Long id,
-                            @RequestParam(value = "file") MultipartFile file){
+                            @RequestParam(value = "file") MultipartFile file) {
         return itemService.uploadImg(id, file);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         itemService.delete(id);
     }
 }

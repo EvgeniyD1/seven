@@ -34,6 +34,7 @@ import java.io.Serializable;
                 @NamedAttributeNode("typeThree"),
                 @NamedAttributeNode("typeFour"),
                 @NamedAttributeNode("typeFive"),
+                @NamedAttributeNode("cluster"),
         }
 )
 @Table(name = "items")
@@ -88,7 +89,6 @@ public class Item implements Serializable {
 
     @ManyToOne
     @JsonManagedReference
-//    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "cluster_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Cluster cluster;

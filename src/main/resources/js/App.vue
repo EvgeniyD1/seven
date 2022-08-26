@@ -8,6 +8,17 @@
 
       <v-spacer></v-spacer>
 
+      <v-text-field class="mt-5"
+                    v-model="search"
+                    clearable
+                    clear-icon="clear"
+                    label="Find item"
+                    density="comfortable"
+                    @keyup.enter="$router.push('/search/' + search)"
+                    variant="underlined"
+      ></v-text-field>
+      <v-btn icon="search" @click="$router.push('/search/' + search)"></v-btn>
+
       <v-btn v-if="this.$store.state.profile"
              @click="$router.push('/users/' + this.$store.state.profile)">{{ this.$store.state.profile }}
       </v-btn>
@@ -17,8 +28,6 @@
     </v-app-bar>
 
     <v-main>
-<!--      <router-view></router-view>-->
-<!--      make rerender, not need $watch in component-->
       <router-view :key="$route.path"></router-view>
     </v-main>
 
@@ -29,21 +38,22 @@
 import axios from "axios";
 
 export default {
-  name: "App",
+  data() {
+    return {
+      search: ''
+    }
+  },
   methods: {
     async logout() {
       try {
         await axios.post('/logout', {})
         window.location.href = '/'
-      }
-      catch (e){
+      } catch (e) {
         console.log(e)
-        // !!!!
         window.location.href = '/'
       }
     }
   }
-
 }
 </script>
 

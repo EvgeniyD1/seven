@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,11 +29,19 @@ public class ItemService {
     private final CloudService cloudService;
 
     public Page<Item> findAll(Pageable pageable){
-        return itemRepository.findAll(pageable);
+        return itemRepository.findAllByIdIsNotNull(pageable);
     }
 
     public Page<Item> findAllByClusterId(Pageable pageable, Long id) {
         return itemRepository.findAllByClusterId(pageable, id);
+    }
+
+    public Page<Item> fullSearch(Pageable pageable, String text){
+        List<Long> ids = itemRepository.getIds(text);
+        if (!ids.isEmpty()){
+            return itemRepository.fulTextSearch(pageable, ids);
+        }
+        return null;
     }
 
     public Item findOne(Long id) {

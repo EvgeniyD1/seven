@@ -6,13 +6,13 @@
         Img
       </th>
       <th class="text-left">
-        Author
+        Name
       </th>
       <th class="text-left">
         Collection
       </th>
       <th class="text-left">
-        Name
+        Author
       </th>
     </tr>
     </thead>
@@ -25,11 +25,12 @@
                @click="$router.push('/items/' + item.id)"></v-img>
       </td>
 
-      <td @click="$router.push('/users/' + item.cluster.user.username)">{{item.cluster.user.username}}</td>
+      <td @click="$router.push('/items/' + item.id)">{{ item.name }}</td>
 
       <td @click="$router.push('/collections/' + item.cluster.id)">{{item.cluster.name}}</td>
 
-      <td>{{ item.name }}</td>
+      <td @click="$router.push('/users/' + item.cluster.user.username)">{{item.cluster.user.username}}</td>
+
     </tr>
     </tbody>
   </v-table>
