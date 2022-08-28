@@ -67,7 +67,7 @@ export default {
           let url = '/comments/' + this.itemIdProp + '/new';
           let response = await axios.post(url, request);
           this.$emit('getComment', response.data);
-          this.comment = ' ';
+          this.comment = '';
         }
         if (this.editForm){
           let url = '/comments/' + this.commentId;

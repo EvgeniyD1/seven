@@ -1,49 +1,24 @@
 <template>
-  <div class="my-3 mx-3">
-    <item-table-simple :item-props="items"></item-table-simple>
-    <div v-intersection="full"></div>
+  <div align="center" class="mt-16" v-show="showElements===false">
+    <h1>Not Found</h1>
+    <p>Oops, we couldn't find a item. Try to find something else :)</p>
+  </div>
+  <div class="my-3 mx-3" v-show="showElements===true">
+    <item-table-simple :item-props="elements"></item-table-simple>
+    <div v-intersection="loadElements"></div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import ItemTableSimple from "../component/ItemTableSimple.vue";
+import loadingMixin from "../mixins/loadingMixin";
 
 export default {
   components: {ItemTableSimple},
-  data() {
-    return {
-      items: [],
-      pageNumber: 0,
-      totalPages: 0,
-      number: 0,
-    }
+  mixins: [loadingMixin],
+  beforeMount() {
+    this.path = '/items/full/' + this.$route.params.text.trim().replace(/\s/, ' & ')
   },
-  methods: {
-    async full() {
-      if (this.number !== this.totalPages - 1) {
-        try {
-          let url = '/items/full/' + this.$route.params.text.trim().replace(/\s/, ' & ');
-          let response = await axios.get(url, {
-            params: {
-              page: this.pageNumber
-            }
-          });
-          console.log(response)
-          if (!response.data) {
-            this.$router.push('/non-existing');
-          } else {
-            this.items = [...this.items, ...response.data.content]
-            this.pageNumber = response.data.pageable.pageNumber + 1;
-            this.number = response.data.number;
-            this.totalPages = response.data.totalPages;
-          }
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    }
-  }
 }
 </script>
 

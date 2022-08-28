@@ -8,8 +8,8 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="7" lg="9">
-        <clusters :collections="collections" :is-user-page="true"></clusters>
-        <div v-intersection="loadCollections"></div>
+        <clusters :collections="elements" :is-user-page="true"></clusters>
+        <div v-intersection="loadElements"></div>
       </v-col>
 
     </v-row>
@@ -21,18 +21,14 @@ import UserCard from "../component/UserCard.vue";
 import ClusterForm from "../component/ClusterForm.vue";
 import Clusters from "../component/Clusters.vue";
 import axios from "axios";
+import loadingMixin from "../mixins/loadingMixin";
 
 export default {
   components: {Clusters, ClusterForm, UserCard},
+  mixins: [loadingMixin],
   data() {
     return {
       user: {},
-      collections: [],
-
-      pageNumber: 0,
-      totalPages: 0,
-      number: 0,
-
     }
   },
   methods: {
@@ -57,32 +53,11 @@ export default {
         console.log(e)
       }
     },
-
-    async loadCollections() {
-      if (this.number !== this.totalPages - 1) {
-        try {
-          let url = '/collections/' + this.$route.params.username;
-          let response = await axios.get(url, {
-            params: {
-              page: this.pageNumber
-            }
-          });
-          console.log(response.data)
-          this.collections = [...this.collections, ...response.data.content];
-
-          this.pageNumber = response.data.pageable.pageNumber + 1;
-          this.number = response.data.number;
-          this.totalPages = response.data.totalPages
-
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    },
   },
   beforeMount() {
     this.loadUser()
-  }
+    this.path = '/collections/' + this.$route.params.username
+  },
 }
 </script>
 

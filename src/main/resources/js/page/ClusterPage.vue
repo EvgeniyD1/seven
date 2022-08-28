@@ -39,10 +39,10 @@
         </v-form>
 
         <item-table :collection-props="collection"
-                    :item-props="items"
+                    :item-props="elements"
                     :collection-page="true"
         ></item-table>
-        <div v-intersection="loadItems" id="observer"></div>
+        <div v-intersection="loadElements" id="observer"></div>
       </v-col>
     </v-row>
   </v-container>
@@ -54,24 +54,16 @@ import ItemCollectionForm from "../component/ClusterForm.vue";
 import ItemForm from "../component/ItemForm.vue";
 import ItemTable from "../component/ItemTable.vue";
 import axios from "axios";
+import loadingMixin from "../mixins/loadingMixin";
 
 export default {
   components: {ItemTable, ItemForm, ItemCollection, ItemCollectionForm},
+  mixins: [loadingMixin],
   data() {
     return {
       collection: {},
-      items: [],
-
       sorting: ['id', 'name', 'tag'],
       ordering: ['desc', 'asc'],
-
-      pageNumber: 0,
-      totalPages: 0,
-      number: 0,
-
-      sort: '',
-      order: '',
-
       check: false,
     }
   },
@@ -79,7 +71,7 @@ export default {
     check(){
       this.clear()
       if (this.checkVisible()){
-        this.loadItems()
+        this.loadElements()
       }
     }
   },
@@ -91,13 +83,13 @@ export default {
       this.collection.imgUrl = url;
     },
     getItem(data) {
-      this.items.unshift(data);
+      this.elements.unshift(data);
     },
     clear() {
-      this.items = [];
+      this.elements = [];
       this.pageNumber = 0;
       this.totalPages = 0;
-      this.number = 0;
+      this.currentNumber = 0;
     },
     /*check if there is an observer in view*/
     checkVisible() {
@@ -112,6 +104,7 @@ export default {
       };
       return targetPosition.bottom > windowPosition.top && targetPosition.top < windowPosition.bottom;
     },
+
     async loadCollection() {
       try {
         let response = await axios.get('/collections/collection/' + this.$route.params.id);
@@ -126,29 +119,10 @@ export default {
         // this.$router.push('/non-existing')
       }
     },
-    async loadItems() {
-      if (this.number !== this.totalPages - 1) {
-        try {
-          let url = '/items/collection/' + this.$route.params.id;
-          let response = await axios.get(url, {
-            params: {
-              page: this.pageNumber,
-              sort: this.sort + ',' + this.order,
-            }
-          })
-          console.log(response.data)
-          this.items = [...this.items, ...response.data.content];
-          this.pageNumber = response.data.pageable.pageNumber + 1;
-          this.number = response.data.number;
-          this.totalPages = response.data.totalPages
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    }
   },
   beforeMount() {
     this.loadCollection()
+    this.path = '/items/collection/' + this.$route.params.id
   }
 }
 </script>

@@ -13,16 +13,15 @@
                @getImg="getImg"
     ></item-form>
   </div>
-  <div align="center" class="my-3 text-h3">Comments</div>
-  <div align="center" class="my-1 text-h5" v-if="!this.$store.state.profile">Sign in to leave a comment</div>
+  <div align="center" class="my-3 text-h5" v-if="!this.$store.state.profile">Sign in to leave a comment</div>
   <div class="mx-3 my-1" v-if="oneItem.id && this.$store.state.profile">
     <comment-form :item-id-prop="oneItem.id"
                   @getComment="getComment"></comment-form>
   </div>
   <div class="mx-3 my-1">
-    <comments :comments-prop="comments"
+    <comments :comments-prop="elements"
               @deletedComment="deletedComment"></comments>
-    <div v-intersection="loadComments"></div>
+    <div v-intersection="loadElements"></div>
   </div>
 </template>
 
@@ -33,19 +32,16 @@ import axios from "axios";
 import ItemForm from "../component/ItemForm.vue";
 import CommentForm from "../component/CommentForm.vue";
 import Comments from "../component/Comments.vue";
+import loadingMixin from "../mixins/loadingMixin";
 
 
 export default {
   components: {Comments, CommentForm, ItemForm, ItemTable, ImgForm},
+  mixins: [loadingMixin],
   data() {
     return {
       items: [],
       oneItem: {},
-      comments: [],
-
-      pageNumber: 0,
-      totalPages: 0,
-      number: 0,
     }
   },
   methods: {
@@ -64,26 +60,6 @@ export default {
         // this.$router.push('/error');
       }
     },
-    async loadComments() {
-      if (this.number !== this.totalPages - 1) {
-        try {
-          let url = '/comments/item/' + this.$route.params.id;
-          let response = await axios.get(url, {
-            params: {
-              page: this.pageNumber
-            }
-          })
-          console.log(response.data)
-
-          this.comments = [...this.comments, ...response.data.content];
-          this.pageNumber = response.data.pageable.pageNumber + 1;
-          this.number = response.data.number;
-          this.totalPages = response.data.totalPages;
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    },
     updatedItem(data) {
       this.items[0] = data
     },
@@ -91,14 +67,15 @@ export default {
       this.items[0].imgUrl = data;
     },
     getComment(data) {
-      this.comments.unshift(data);
+      this.elements.unshift(data);
     },
     deletedComment(data){
-      this.comments = this.comments.filter(comment => comment.id!==data.id)
+      this.elements = this.elements.filter(comment => comment.id!==data.id)
     }
   },
   beforeMount() {
     this.getItem()
+    this.path = '/comments/item/' + this.$route.params.id
   }
 }
 </script>
