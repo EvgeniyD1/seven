@@ -14,7 +14,8 @@
          class="my-2 mr-2"
          v-if="editForm"
          append-icon="delete"
-  >Del</v-btn>
+  >Del
+  </v-btn>
 
   <v-expand-transition>
     <v-card v-show="show1">
@@ -30,6 +31,14 @@
             label="Name"
             required
         ></v-text-field>
+
+        <v-select v-if="!editForm"
+                  v-model="topicSelect"
+                  :items="topics"
+                  :rules="[v => !!v || 'Topic is required']"
+                  label="Topic"
+                  required
+        ></v-select>
 
         <v-textarea
             v-model.trim="description"
@@ -84,7 +93,7 @@
   <v-expand-transition>
     <v-card v-show="show2" v-if="editForm">
       <img-form @uploadImg="uploadImg"
-          :url-prop="'/collections/collection/uploadImg/' + collectionProps.id"></img-form>
+                :url-prop="'/collections/collection/uploadImg/' + collectionProps.id"></img-form>
     </v-card>
   </v-expand-transition>
 </template>
@@ -119,6 +128,14 @@ export default {
         'DATE'
       ],
       select: null,
+      topics: [
+          'BOOKS',
+          'WORDS',
+          'THINGS',
+          'LINKS',
+          'OTHER'
+      ],
+      topicSelect: null,
       nameRules: [
         v => !!v || 'Name must not be empty',
         v => (v && v.length <= 30) || 'Name must be less than 30 characters',
@@ -157,17 +174,15 @@ export default {
   },
   emits: ['updateCollection', 'getUrl'],
   methods: {
-    uploadImg(url, show){
+    uploadImg(url, show) {
       this.show2 = show;
       this.$emit('getUrl', url);
     },
-    async deleteCollection(){
+    async deleteCollection() {
       try {
         await axios.delete('/collections/collection/' + this.collectionProps.id);
-        //todo
         this.$router.push('/users/' + this.collectionProps.user.username);
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -176,7 +191,7 @@ export default {
         let collection = {
           name: this.name,
           description: this.description,
-          type: this.type,
+          topic: this.topicSelect,
           fieldsType: this.select,
           fieldOne: this.fieldOne,
           fieldTwo: this.fieldTwo,

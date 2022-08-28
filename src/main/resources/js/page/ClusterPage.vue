@@ -42,7 +42,7 @@
                     :item-props="items"
                     :collection-page="true"
         ></item-table>
-        <div ref="observer" id="observer"></div>
+        <div v-intersection="loadItems" id="observer"></div>
       </v-col>
     </v-row>
   </v-container>
@@ -77,7 +77,7 @@ export default {
   },
   watch: {
     check(){
-      this.find()
+      this.clear()
       if (this.checkVisible()){
         this.loadItems()
       }
@@ -93,7 +93,7 @@ export default {
     getItem(data) {
       this.items.unshift(data);
     },
-    find() {
+    clear() {
       this.items = [];
       this.pageNumber = 0;
       this.totalPages = 0;
@@ -149,19 +149,6 @@ export default {
   },
   beforeMount() {
     this.loadCollection()
-  },
-  mounted() {
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        this.loadItems()
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
   }
 }
 </script>

@@ -9,7 +9,7 @@
 
       <v-col cols="12" sm="6" md="7" lg="9">
         <clusters :collections="collections" :is-user-page="true"></clusters>
-        <div ref="observer"></div>
+        <div v-intersection="loadCollections"></div>
       </v-col>
 
     </v-row>
@@ -82,26 +82,10 @@ export default {
   },
   beforeMount() {
     this.loadUser()
-  },
-  mounted() {
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        this.loadCollections()
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
   }
 }
 </script>
 
 <style scoped>
-/*.observer{*/
-/*  height: 10px;*/
-/*  background: red;*/
-/*}*/
+
 </style>

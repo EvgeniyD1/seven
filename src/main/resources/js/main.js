@@ -7,6 +7,7 @@ import { aliases, md } from 'vuetify/iconsets/md'
 import App from './App.vue'
 import router from "./router/router";
 import store from "./store/store";
+import VIntersection from "./directives/VIntersection";
 
 const vuetify = createVuetify({
     components,
@@ -21,6 +22,7 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
+    .directive('intersection', VIntersection)
     .use(store)
     .use(router)
     .use(vuetify)

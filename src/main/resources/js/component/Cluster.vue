@@ -22,7 +22,7 @@
 
     <!--    todo type-->
     <v-card-subtitle>
-      {{ collection.type }}
+      {{ collection.topic }}
     </v-card-subtitle>
 
     <v-card-text>

@@ -22,7 +22,7 @@
   <div class="mx-3 my-1">
     <comments :comments-prop="comments"
               @deletedComment="deletedComment"></comments>
-    <div ref="observer"></div>
+    <div v-intersection="loadComments"></div>
   </div>
 </template>
 
@@ -99,19 +99,6 @@ export default {
   },
   beforeMount() {
     this.getItem()
-  },
-  mounted() {
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        this.loadComments()
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
   }
 }
 </script>

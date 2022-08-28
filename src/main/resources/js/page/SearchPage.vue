@@ -1,7 +1,7 @@
 <template>
   <div class="my-3 mx-3">
     <item-table-simple :item-props="items"></item-table-simple>
-    <div ref="observer"></div>
+    <div v-intersection="full"></div>
   </div>
 </template>
 
@@ -43,19 +43,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        this.full()
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
   }
 }
 </script>

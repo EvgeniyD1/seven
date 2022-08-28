@@ -11,7 +11,7 @@ public class ClusterDto implements Serializable {
     private String name;
     private String description;
     private String imgUrl;
-    private String type;
+    private String topic;
     private String fieldsType;
     private String fieldOne;
     private String fieldTwo;
