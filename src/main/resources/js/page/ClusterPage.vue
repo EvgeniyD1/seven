@@ -1,16 +1,16 @@
 <template>
   <v-container fluid>
     <v-row justify="start" align="start">
-      <v-col cols="12" sm="6" md="5" lg="3" v-if="collection.id">
-        <item-collection :collection="collection"></item-collection>
-        <item-collection-form :edit-form="true"
-                              :collection-props="collection"
-                              v-if="this.$store.state.profile===collection.user.username || this.$store.state.access==='ADMIN'"
+      <v-col cols="12" sm="6" md="5" lg="3" v-if="mainElement.id">
+        <cluster :collection="mainElement"></cluster>
+        <cluster-form :edit-form="true"
+                              :collection-props="mainElement"
+                              v-if="this.$store.state.profile===mainElement.user.username || this.$store.state.access==='ADMIN'"
                               @updateCollection="updateCollection"
                               @getUrl="getUrl"
-        ></item-collection-form>
-        <item-form :collection="collection"
-                   v-if="this.$store.state.profile===collection.user.username || this.$store.state.access==='ADMIN'"
+        ></cluster-form>
+        <item-form :collection="mainElement"
+                   v-if="this.$store.state.profile===mainElement.user.username || this.$store.state.access==='ADMIN'"
                    @getItem="getItem"
         ></item-form>
       </v-col>
@@ -38,7 +38,7 @@
           </v-row>
         </v-form>
 
-        <item-table :collection-props="collection"
+        <item-table :collection-props="mainElement"
                     :item-props="elements"
                     :collection-page="true"
         ></item-table>
@@ -49,48 +49,41 @@
 </template>
 
 <script>
-import ItemCollection from "../component/Cluster.vue";
-import ItemCollectionForm from "../component/ClusterForm.vue";
+import Cluster from "../component/Cluster.vue";
+import ClusterForm from "../component/ClusterForm.vue";
 import ItemForm from "../component/ItemForm.vue";
 import ItemTable from "../component/ItemTable.vue";
-import axios from "axios";
 import loadingMixin from "../mixins/loadingMixin";
+import mainElementMixin from "../mixins/mainElementMixin";
 
 export default {
-  components: {ItemTable, ItemForm, ItemCollection, ItemCollectionForm},
-  mixins: [loadingMixin],
+  components: {ItemTable, ItemForm, Cluster, ClusterForm},
+  mixins: [loadingMixin, mainElementMixin],
   data() {
     return {
-      collection: {},
       sorting: ['id', 'name', 'tag'],
       ordering: ['desc', 'asc'],
       check: false,
     }
   },
-  watch: {
-    check(){
-      this.clear()
-      if (this.checkVisible()){
-        this.loadElements()
-      }
-    }
-  },
   methods: {
     updateCollection(collection) {
-      this.collection = collection;
+      this.mainElement = collection;
     },
-    getUrl(url) {
-      this.collection.imgUrl = url;
+    getUrl(imgUrl) {
+      this.mainElement.imgUrl = imgUrl;
     },
-    getItem(data) {
-      this.elements.unshift(data);
+    getItem(item) {
+      this.elements.unshift(item);
     },
+
     clear() {
       this.elements = [];
       this.pageNumber = 0;
       this.totalPages = 0;
       this.currentNumber = 0;
     },
+
     /*check if there is an observer in view*/
     checkVisible() {
       let target = document.getElementById("observer");
@@ -103,25 +96,19 @@ export default {
         bottom: window.pageYOffset + document.documentElement.clientHeight
       };
       return targetPosition.bottom > windowPosition.top && targetPosition.top < windowPosition.bottom;
-    },
-
-    async loadCollection() {
-      try {
-        let response = await axios.get('/collections/collection/' + this.$route.params.id);
-        if (!response.data) {
-          this.$router.push('/non-existing');
-        } else {
-          this.collection = response.data;
-        }
-      } catch (e) {
-        console.log(e)
-        //todo need to add errors page
-        // this.$router.push('/non-existing')
+    }
+  },
+  watch: {
+    check(){
+      this.clear()
+      if (this.checkVisible()){
+        this.loadElements()
       }
-    },
+    }
   },
   beforeMount() {
-    this.loadCollection()
+    this.mainElementPath = '/collections/collection/' + this.$route.params.id
+    this.loadMainElement()
     this.path = '/items/collection/' + this.$route.params.id
   }
 }
