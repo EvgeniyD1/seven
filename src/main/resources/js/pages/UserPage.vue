@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import UserCard from "../component/UserCard.vue";
-import ClusterForm from "../component/ClusterForm.vue";
-import Clusters from "../component/Clusters.vue";
+import UserCard from "../components/user/UserCard.vue";
+import ClusterForm from "../components/cluster/ClusterForm.vue";
+import Clusters from "../components/cluster/Clusters.vue";
 import loadingMixin from "../mixins/loadingMixin";
 import mainElementMixin from "../mixins/mainElementMixin";
 

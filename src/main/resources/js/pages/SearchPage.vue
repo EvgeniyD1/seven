@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ItemTableSimple from "../component/ItemTableSimple.vue";
+import ItemTableSimple from "../components/item/ItemTableSimple.vue";
 import loadingMixin from "../mixins/loadingMixin";
 
 export default {

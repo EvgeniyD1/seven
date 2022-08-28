@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import ImgForm from "../component/ImgForm.vue";
-import ItemTable from "../component/ItemTable.vue";
+import ImgForm from "../components/item/ImgForm.vue";
+import ItemTable from "../components/item/ItemTable.vue";
 import axios from "axios";
-import ItemForm from "../component/ItemForm.vue";
-import CommentForm from "../component/CommentForm.vue";
-import Comments from "../component/Comments.vue";
+import ItemForm from "../components/item/ItemForm.vue";
+import CommentForm from "../components/comment/CommentForm.vue";
+import Comments from "../components/comment/Comments.vue";
 import loadingMixin from "../mixins/loadingMixin";
 
 

@@ -112,10 +112,10 @@
 </template>
 
 <script>
-import UserNameEmailForm from "../component/UserNameEmailForm.vue";
-import UserAboutForm from "../component/UserAboutForm.vue";
-import UserAdminForm from "../component/UserAdminForm.vue";
-import UserImgForm from "../component/UserImgForm.vue";
+import UserNameEmailForm from ".//UserNameEmailForm.vue";
+import UserAboutForm from ".//UserAboutForm.vue";
+import UserAdminForm from ".//UserAdminForm.vue";
+import UserImgForm from ".//UserImgForm.vue";
 
 
 export default {

@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import Clusters from "../component/Clusters.vue";
+import Clusters from "../components/cluster/Clusters.vue";
 import axios from "axios";
-import ItemTableSimple from "../component/ItemTableSimple.vue";
+import ItemTableSimple from "../components/item/ItemTableSimple.vue";
 
 export default {
   components: {ItemTableSimple, Clusters},

@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import Cluster from "../component/Cluster.vue";
-import ClusterForm from "../component/ClusterForm.vue";
-import ItemForm from "../component/ItemForm.vue";
-import ItemTable from "../component/ItemTable.vue";
+import Cluster from "../components/cluster/Cluster.vue";
+import ClusterForm from "../components/cluster/ClusterForm.vue";
+import ItemForm from "../components/item/ItemForm.vue";
+import ItemTable from "../components/item/ItemTable.vue";
 import loadingMixin from "../mixins/loadingMixin";
 import mainElementMixin from "../mixins/mainElementMixin";
 

@@ -1,13 +1,13 @@
 import {createRouter, createWebHashHistory} from "vue-router";
-import RegistrationForm from "../page/RegistrationForm.vue";
-import Main from "../page/Main.vue";
-import LoginForm from "../page/LoginForm.vue";
-import UserPage from "../page/UserPage.vue";
-import NotFound from "../page/NotFound.vue";
-import CollectionPage from "../page/ClusterPage.vue";
-import ItemPage from "../page/ItemPage.vue";
-import ErrorPage from "../page/ErrorPage.vue";
-import SearchPage from "../page/SearchPage.vue";
+import RegistrationForm from "../pages/RegistrationForm.vue";
+import Main from "../pages/Main.vue";
+import LoginForm from "../pages/LoginForm.vue";
+import UserPage from "../pages/UserPage.vue";
+import NotFound from "../pages/NotFound.vue";
+import CollectionPage from "../pages/ClusterPage.vue";
+import ItemPage from "../pages/ItemPage.vue";
+import ErrorPage from "../pages/ErrorPage.vue";
+import SearchPage from "../pages/SearchPage.vue";
 
 const routes = [
     {

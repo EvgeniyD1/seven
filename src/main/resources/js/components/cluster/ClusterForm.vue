@@ -100,7 +100,7 @@
 
 <script>
 import axios from "axios";
-import ImgForm from "./ImgForm.vue";
+import ImgForm from "../item/ImgForm.vue";
 
 export default {
   components: {ImgForm},
