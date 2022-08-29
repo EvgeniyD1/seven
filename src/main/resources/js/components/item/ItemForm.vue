@@ -21,24 +21,27 @@
     <v-card v-show="show1">
       <v-form class="mx-3 mt-5"
               ref="form"
-              lazy-validation
       >
 
         <v-text-field
             v-model.trim="name"
             :counter="30"
             :rules="nameRules"
-            label="Name"
-            required
+            label="name"
         ></v-text-field>
 
-        <v-text-field
-            v-model.trim="tag"
-            :counter="15"
-            :rules="tagRules"
-            label="Tag"
-            required
-        ></v-text-field>
+        <v-combobox
+            v-if="!editForm"
+            v-model="selectedTags"
+            v-model:search-input="tagsSearch"
+            :items="tags"
+            label="tags"
+            multiple
+            chips
+            hide-selected
+            :rules="tagsRules"
+            hint="Maximum of 3 tags"
+        ></v-combobox>
 
         <div v-if="collection.fieldsType==='INTEGER'">
           <v-text-field
@@ -46,7 +49,6 @@
               :counter="10"
               :rules="integerFieldRules"
               :label="collection.fieldOne"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -54,7 +56,6 @@
               :counter="10"
               :rules="integerFieldRules"
               :label="collection.fieldTwo"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -62,7 +63,6 @@
               :counter="10"
               :rules="integerFieldRules"
               :label="collection.fieldThree"
-              required
           ></v-text-field>
         </div>
 
@@ -72,7 +72,6 @@
               :counter="30"
               :rules="textFieldRules"
               :label="collection.fieldOne"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -80,7 +79,6 @@
               :counter="30"
               :rules="textFieldRules"
               :label="collection.fieldTwo"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -88,7 +86,6 @@
               :counter="30"
               :rules="textFieldRules"
               :label="collection.fieldThree"
-              required
           ></v-text-field>
         </div>
 
@@ -98,7 +95,6 @@
               :counter="255"
               :rules="multilineTextFieldRules"
               :label="collection.fieldOne"
-              required
           ></v-textarea>
 
           <v-textarea
@@ -106,7 +102,6 @@
               :counter="255"
               :rules="multilineTextFieldRules"
               :label="collection.fieldTwo"
-              required
           ></v-textarea>
 
           <v-textarea
@@ -114,7 +109,6 @@
               :counter="255"
               :rules="multilineTextFieldRules"
               :label="collection.fieldThree"
-              required
           ></v-textarea>
         </div>
 
@@ -122,19 +116,16 @@
           <v-checkbox
               v-model="booleanFieldOne"
               :label="collection.fieldOne"
-              required
           ></v-checkbox>
 
           <v-checkbox
               v-model="booleanFieldTwo"
               :label="collection.fieldTwo"
-              required
           ></v-checkbox>
 
           <v-checkbox
               v-model="booleanFieldThree"
               :label="collection.fieldThree"
-              required
           ></v-checkbox>
         </div>
 
@@ -144,7 +135,6 @@
               :rules="dateFieldRules"
               :counter="10"
               :label="collection.fieldOne"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -152,7 +142,6 @@
               :rules="dateFieldRules"
               :counter="10"
               :label="collection.fieldTwo"
-              required
           ></v-text-field>
 
           <v-text-field
@@ -160,7 +149,6 @@
               :rules="dateFieldRules"
               :counter="10"
               :label="collection.fieldThree"
-              required
           ></v-text-field>
         </div>
 
@@ -184,6 +172,7 @@ import axios from "axios";
 
 export default {
   components: {ImgForm},
+
   props: {
     collection: {
       type: Object,
@@ -199,6 +188,26 @@ export default {
       default: false
     }
   },
+
+  watch: {
+    async tagsSearch(value) {
+      try {
+        if (value) {
+          let url = '/tags/' + value
+          let response = await axios.get(url)
+          this.tags = response.data
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    selectedTags (value) {
+      if (value.length > 3) {
+        this.$nextTick(() => this.selectedTags.pop())
+      }
+    },
+  },
+
   data() {
     return {
       name: '',
@@ -206,11 +215,15 @@ export default {
         v => !!v || 'Name must not be empty',
         v => (v && v.length <= 30) || 'Name must be less than 30 characters',
       ],
-      tag: '',
-      tagRules: [
-        v => !!v || 'Tag must not be empty',
-        v => (v && v.length <= 15) || 'Tag must be less than 15 characters',
+
+      tags: [],
+      selectedTags: [],
+      tagsSearch: '',
+      tagsRules: [
+        v => (v && v.length !== 0) || 'Tags must not be empty',
+        v => (v && v.length <= 3) || 'Maximum of 3 tags',
       ],
+
       integerFieldOne: '',
       integerFieldTwo: '',
       integerFieldThree: '',
@@ -219,6 +232,7 @@ export default {
         v => (v && v.length <= 10) || 'Field must be less than 10 characters',
         v => /^[0-9]+$/.test(v) || 'Only numbers allowed',
       ],
+
       textFieldOne: '',
       textFieldTwo: '',
       textFieldThree: '',
@@ -226,6 +240,7 @@ export default {
         v => !!v || 'Field must not be empty',
         v => (v && v.length <= 30) || 'Field must be less than 30 characters',
       ],
+
       multilineTextFieldOne: '',
       multilineTextFieldTwo: '',
       multilineTextFieldThree: '',
@@ -233,9 +248,11 @@ export default {
         v => !!v || 'Field must not be empty',
         v => (v && v.length <= 255) || 'Field must be less than 255 characters',
       ],
+
       booleanFieldOne: false,
       booleanFieldTwo: false,
       booleanFieldThree: false,
+
       dateFieldOne: '',
       dateFieldTwo: '',
       dateFieldThree: '',
@@ -244,6 +261,7 @@ export default {
         v => (v && v.length <= 10) || 'Field must be less than 10 characters',
         v => /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/.test(v) || 'Date format must be YYYY/MM/DD',
       ],
+
       show1: false,
       show2: false,
       fieldOne: '',
@@ -253,7 +271,9 @@ export default {
       valid: false,
       editForm: false,
     }
-  }, methods: {
+  },
+
+  methods: {
     async createOrUpdateItem() {
       try {
         switch (this.collection.fieldsType) {
@@ -290,7 +310,7 @@ export default {
         }
         let request = {
           name: this.name,
-          tag: this.tag,
+          tags: this.selectedTags,
           fieldsType: this.collection.fieldsType,
           fieldOne: this.fieldOne,
           fieldTwo: this.fieldTwo,
@@ -310,7 +330,7 @@ export default {
 
         if (!this.editForm) {
           this.name = '';
-          this.tag = '';
+          this.selectedTags = '';
           this.integerFieldOne = '';
           this.integerFieldTwo = '';
           this.integerFieldThree = '';
@@ -352,12 +372,13 @@ export default {
       }
     }
   },
+
   emits: ['getItem', 'updatedItem', 'getImg'],
+
   beforeMount() {
     this.editForm = this.editFormProp;
     if (this.editForm) {
       this.name = this.itemProps.name;
-      this.tag = this.itemProps.tag;
       this.itemId = this.itemProps.id;
       if (this.itemProps.fieldsType === 'INTEGER') {
         this.integerFieldOne = this.itemProps.typeOne.fieldOne;

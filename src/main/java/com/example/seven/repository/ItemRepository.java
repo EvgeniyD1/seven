@@ -29,10 +29,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             nativeQuery = true)
     List<Long> getIds(@Param("text") String text);
 
-//    @EntityGraph(value = "item")
-//    @Query("select item from Item item where item.id in :ids order by case when item.name like %:text% then 0 else 1 end, item.name")
-//    Page<Item> fulTextSearch(Pageable pageable, @Param("ids") List<Long> ids, @Param("text") String text);
-
     @EntityGraph(value = "item")
     @Query("select item from Item item where item.id in :ids")
     Page<Item> fulTextSearch(Pageable pageable, @Param("ids") List<Long> ids);

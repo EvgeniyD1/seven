@@ -61,7 +61,7 @@ export default {
   mixins: [loadingMixin, mainElementMixin],
   data() {
     return {
-      sorting: ['id', 'name', 'tag'],
+      sorting: ['id', 'name'],
       ordering: ['desc', 'asc'],
       check: false,
     }
@@ -74,7 +74,10 @@ export default {
       this.mainElement.imgUrl = imgUrl;
     },
     getItem(item) {
-      this.elements.unshift(item);
+      /*intersection mb bad works*/
+      if (this.elements.length!==0){
+        this.elements.unshift(item);
+      }
     },
 
     clear() {

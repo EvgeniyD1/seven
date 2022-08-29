@@ -15,7 +15,7 @@
         Name
       </th>
       <th class="text-left">
-        Tag
+        Tags
       </th>
       <th class="text-left">
         {{collectionProps.fieldOne}}
@@ -46,7 +46,7 @@
       >{{item.cluster.name}}</td>
 
       <td>{{ item.name }}</td>
-      <td>{{ item.tag }}</td>
+      <td>{{ this.getTags(item.tags) }}</td>
 
       <td v-if="item.fieldsType==='INTEGER'">{{ item.typeOne.fieldOne }}</td>
       <td v-if="item.fieldsType==='INTEGER'">{{ item.typeOne.fieldTwo }}</td>
@@ -89,6 +89,15 @@ export default {
       default: false
     }
   },
+  methods: {
+    getTags(tags){
+      let result = '';
+      for (let tag of tags) {
+        result = result + '  #' + tag.name;
+      }
+      return result;
+    }
+  }
 }
 </script>
 

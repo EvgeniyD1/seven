@@ -2,6 +2,7 @@ package com.example.seven.service;
 
 import com.example.seven.domain.Cluster;
 import com.example.seven.domain.FieldTypes;
+import com.example.seven.domain.Tag;
 import com.example.seven.domain.item.Item;
 import com.example.seven.domain.item.TypeFive;
 import com.example.seven.domain.item.TypeFour;
@@ -10,6 +11,7 @@ import com.example.seven.domain.item.TypeThree;
 import com.example.seven.domain.item.TypeTwo;
 import com.example.seven.repository.ClusterRepository;
 import com.example.seven.repository.ItemRepository;
+import com.example.seven.repository.TagRepository;
 import com.example.seven.request.ItemRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ClusterRepository clusterRepository;
     private final CloudService cloudService;
+    private final TagRepository tagRepository;
 
     public Page<Item> findAll(Pageable pageable){
         return itemRepository.findAllByIdIsNotNull(pageable);
@@ -55,7 +58,8 @@ public class ItemService {
         }
         Item item = new Item();
         item.setName(request.getName());
-        item.setTag(request.getTag());
+        request.getTags().forEach(tag -> item.addTag(tagRepository.findByName(tag).orElse(new Tag(tag))));
+
         item.setFieldsType(FieldTypes.valueOf(request.getFieldsType()));
         item.setCluster(cluster);
         itemRepository.save(item);
@@ -93,7 +97,6 @@ public class ItemService {
         Item item = itemRepository.findById(id).orElse(null);
         if (item!=null){
             item.setName(request.getName());
-            item.setTag(request.getTag());
             switch (item.getFieldsType()) {
                 case INTEGER: {
                     item.getTypeOne().setFieldOne(Integer.valueOf(request.getFieldOne()));
@@ -145,6 +148,7 @@ public class ItemService {
     public void delete(Long id){
         Item item = itemRepository.findById(id).orElse(null);
         if (item!=null){
+            item.getTags().forEach(tag -> tag.getItems().remove(item));
             itemRepository.delete(item);
         }
     }
