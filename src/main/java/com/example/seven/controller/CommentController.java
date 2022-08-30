@@ -26,21 +26,23 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    /*+*/
     @GetMapping("/item/{id}")
-    public Page<Comment> findAll(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+    public Page<CommentDto> findAll(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
                                  @PathVariable Long id){
         return commentService.findAll(pageable, id);
     }
 
+    /*+*/
     @PostMapping("/{itemId}/new")
-    public Comment save(@PathVariable("itemId") Long id,
+    public CommentDto save(@PathVariable("itemId") Long id,
                         @AuthenticationPrincipal User user,
                         @RequestBody CommentDto commentDto){
         return commentService.save(id, user, commentDto);
     }
 
     @PutMapping("/{id}")
-    public Comment update(@PathVariable Long id,
+    public CommentDto update(@PathVariable Long id,
                           @RequestBody CommentDto commentDto){
         return commentService.update(id, commentDto);
     }

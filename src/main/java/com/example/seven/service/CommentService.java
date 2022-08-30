@@ -11,6 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -21,31 +24,37 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ItemRepository itemRepository;
 
-    public Page<Comment> findAll(Pageable pageable, Long id){
-        return commentRepository.findAllByItem_Id(pageable, id);
+    public Page<CommentDto> findAll(Pageable pageable, Long id){
+        return commentRepository.findAllByItem_Id(pageable, id)
+                .map(CommentMapper.COMMENT_MAPPER::commentToCommentDto);
     }
 
-    public Comment save(Long id, User user, CommentDto commentDto){
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public CommentDto save(Long id, User user, CommentDto commentDto){
         Item item = itemRepository.findById(id).orElse(null);
         if (item!=null){
             Comment comment = CommentMapper.COMMENT_MAPPER.commentDtoToComment(commentDto);
             comment.setDate(new Date());
             comment.setItem(item);
             comment.setUser(user);
-            return commentRepository.save(comment);
+            commentRepository.save(comment);
+            return CommentMapper.COMMENT_MAPPER.commentToCommentDto(comment);
         }
         return null;
     }
 
-    public Comment update(Long id, CommentDto commentDto){
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public CommentDto update(Long id, CommentDto commentDto){
         Comment comment = commentRepository.findById(id).orElse(null);
         if (comment!=null){
             comment.setText(commentDto.getText());
-            return commentRepository.save(comment);
+            commentRepository.save(comment);
+            return CommentMapper.COMMENT_MAPPER.commentToCommentDto(comment);
         }
         return null;
     }
 
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void delete(Long id){
         Comment comment = commentRepository.findById(id).orElse(null);
         if (comment!=null){
