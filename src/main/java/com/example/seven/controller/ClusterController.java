@@ -1,6 +1,5 @@
 package com.example.seven.controller;
 
-import com.example.seven.domain.Cluster;
 import com.example.seven.domain.User;
 import com.example.seven.dto.ClusterDto;
 import com.example.seven.service.ClusterService;
@@ -29,37 +28,37 @@ public class ClusterController {
     private final ClusterService clusterService;
 
     @GetMapping("/{username}")
-    public Page<Cluster> findAll(
-            @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+    public Page<ClusterDto> findAll(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable String username) {
-        return clusterService.findAll(pageable, username);
+        return clusterService.findAllByUserUsername(pageable, username);
     }
 
     @GetMapping()
-    public Page<Cluster> findAllSortByItemsSize(
+    public Page<ClusterDto> findAllOrderByItemsSize(
             @PageableDefault(size = 5) Pageable pageable) {
         return clusterService.findAllOrderByItemsSize(pageable);
     }
 
     @GetMapping("/collection/{id}")
-    public Cluster findOne(@PathVariable Long id) {
+    public ClusterDto findOne(@PathVariable Long id) {
         return clusterService.findOne(id);
     }
 
     @PostMapping
-    public Cluster create(@AuthenticationPrincipal User user,
-                          @RequestBody ClusterDto clusterDto) {
+    public ClusterDto create(@AuthenticationPrincipal User user,
+                             @RequestBody ClusterDto clusterDto) {
         return clusterService.create(user, clusterDto);
     }
 
     @PutMapping("/collection/uploadImg/{id}")
     public String uploadImg(@PathVariable Long id,
-                             @RequestParam(value = "file") MultipartFile file) {
+                            @RequestParam(value = "file") MultipartFile file) {
         return clusterService.uploadImg(id, file);
     }
 
     @PutMapping("/collection/{id}")
-    public Cluster update(@PathVariable Long id,
+    public ClusterDto update(@PathVariable Long id,
                           @RequestBody ClusterDto clusterDto) {
         return clusterService.update(id, clusterDto);
     }

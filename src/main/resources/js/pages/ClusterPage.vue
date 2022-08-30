@@ -4,10 +4,10 @@
       <v-col cols="12" sm="6" md="5" lg="3" v-if="mainElement.id">
         <cluster :collection="mainElement"></cluster>
         <cluster-form :edit-form="true"
-                              :collection-props="mainElement"
-                              v-if="this.$store.state.profile===mainElement.user.username || this.$store.state.access==='ADMIN'"
-                              @updateCollection="updateCollection"
-                              @getUrl="getUrl"
+                      :collection-props="mainElement"
+                      v-if="this.$store.state.profile===mainElement.user.username || this.$store.state.access==='ADMIN'"
+                      @updateCollection="updateCollection"
+                      @getUrl="getUrl"
         ></cluster-form>
         <item-form :collection="mainElement"
                    v-if="this.$store.state.profile===mainElement.user.username || this.$store.state.access==='ADMIN'"
@@ -75,9 +75,7 @@ export default {
     },
     getItem(item) {
       /*intersection mb bad works*/
-      if (this.elements.length!==0){
-        this.elements.unshift(item);
-      }
+      this.elements.unshift(item);
     },
 
     clear() {
@@ -102,9 +100,9 @@ export default {
     }
   },
   watch: {
-    check(){
+    check() {
       this.clear()
-      if (this.checkVisible()){
+      if (this.checkVisible()) {
         this.loadElements()
       }
     }

@@ -16,6 +16,5 @@ public class ClusterDto implements Serializable {
     private String fieldOne;
     private String fieldTwo;
     private String fieldThree;
-//    @JsonManagedReference
-//    private UserDto user;
+    private UserDto user;
 }

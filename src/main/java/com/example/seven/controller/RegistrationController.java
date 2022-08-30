@@ -3,6 +3,7 @@ package com.example.seven.controller;
 import com.example.seven.request.AuthRequest;
 import com.example.seven.request.SingUpRequest;
 import com.example.seven.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 public class RegistrationController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-
-    public RegistrationController(UserService userService, AuthenticationManager authenticationManager) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-    }
 
     @PostMapping("/registration")
     public ResponseEntity<String> createAccount(@RequestBody SingUpRequest request){
