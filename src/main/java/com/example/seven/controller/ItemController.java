@@ -1,6 +1,6 @@
 package com.example.seven.controller;
 
-import com.example.seven.domain.item.Item;
+import com.example.seven.dto.item.ItemDto;
 import com.example.seven.request.ItemRequest;
 import com.example.seven.service.ItemService;
 import lombok.AllArgsConstructor;
@@ -27,38 +27,38 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping()
-    public Page<Item> findAll(
+    public Page<ItemDto> findAll(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return itemService.findAll(pageable);
     }
 
     @GetMapping("/collection/{id}")
-    public Page<Item> findAllByClusterId(
+    public Page<ItemDto> findAllByClusterId(
             @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long id) {
         return itemService.findAllByClusterId(pageable, id);
     }
 
     @GetMapping("/full/{text}")
-    public Page<Item> fullSearch(
+    public Page<ItemDto> fullSearch(
             @PageableDefault(size = 10) Pageable pageable,
             @PathVariable String text) {
         return itemService.fullSearch(pageable, text);
     }
 
     @GetMapping("{id}")
-    public Item findOne(@PathVariable Long id) {
+    public ItemDto findOne(@PathVariable Long id) {
         return itemService.findOne(id);
     }
 
     @PostMapping("/{clusterId}/new")
-    public Item create(@PathVariable Long clusterId,
+    public ItemDto create(@PathVariable Long clusterId,
                        @RequestBody ItemRequest request) {
         return itemService.create(clusterId, request);
     }
 
     @PutMapping("/{id}")
-    public Item update(@PathVariable Long id,
+    public ItemDto update(@PathVariable Long id,
                        @RequestBody ItemRequest request) {
         return itemService.updateItem(id, request);
     }

@@ -70,7 +70,7 @@ public class ClusterService {
     }
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-    /*need optimize*/
+    /*need to optimize*/
     public void delete(Long id) {
         Cluster cluster = clusterRepository.findById(id).orElse(null);
         if (cluster != null) {
