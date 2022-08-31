@@ -67,7 +67,7 @@ export default {
         window.location.href = '/'
       }
       catch (e){
-        this.alert = e.response.data.error
+        this.alert = e.response.data
       }
     }
   }

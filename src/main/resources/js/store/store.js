@@ -3,6 +3,6 @@ import {createStore} from "vuex";
 export default createStore({
     state: {
         profile,
-        access
+        access,
     },
 })
