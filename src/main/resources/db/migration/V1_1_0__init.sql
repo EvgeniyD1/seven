@@ -26,8 +26,7 @@ create table users
     username varchar(20)  not null
 );
 
-alter table users
-    owner to postgres;
+
 
 create unique index users_username_uindex
     on users (username);
@@ -50,8 +49,7 @@ create table clusters
             references users
 );
 
-alter table clusters
-    owner to postgres;
+
 
 create index clusters_name_index
     on clusters (name);
@@ -70,8 +68,7 @@ create table items
             on delete cascade
 );
 
-alter table items
-    owner to postgres;
+
 
 create table tags
 (
@@ -81,8 +78,7 @@ create table tags
     name varchar(255) not null
 );
 
-alter table tags
-    owner to postgres;
+
 
 create unique index tags_name_uindex
     on tags (name);
@@ -99,8 +95,7 @@ create table tags_items
         primary key (tag_id, item_id)
 );
 
-alter table tags_items
-    owner to postgres;
+
 
 create table type_one
 (
@@ -115,8 +110,7 @@ create table type_one
     field_two   integer
 );
 
-alter table type_one
-    owner to postgres;
+
 
 create table type_two
 (
@@ -131,8 +125,7 @@ create table type_two
     field_two   varchar(30)
 );
 
-alter table type_two
-    owner to postgres;
+
 
 create table type_three
 (
@@ -147,8 +140,7 @@ create table type_three
     field_two   varchar(255)
 );
 
-alter table type_three
-    owner to postgres;
+
 
 create table type_four
 (
@@ -163,8 +155,7 @@ create table type_four
     field_two   boolean
 );
 
-alter table type_four
-    owner to postgres;
+
 
 create table type_five
 (
@@ -179,8 +170,7 @@ create table type_five
     field_two   timestamp
 );
 
-alter table type_five
-    owner to postgres;
+
 
 create table comments
 (
@@ -199,7 +189,6 @@ create table comments
             on delete cascade
 );
 
-alter table comments
-    owner to postgres;
+
 
 
