@@ -7,3 +7,7 @@ yarn add material-design-icons-iconfont -D
 yarn add -D webpack-merge clean-webpack-plugin
 
 yarn add v-calendar@next
+
+./gradlew build
+
+java -jar -Dsecret=*** build/libs/seven-0.0.1-SNAPSHOT.jar
