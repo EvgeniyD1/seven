@@ -46,21 +46,21 @@
         <div v-if="collection.fieldsType==='INTEGER'">
           <v-text-field
               v-model="integerFieldOne"
-              :counter="10"
+              :counter="8"
               :rules="integerFieldRules"
               :label="collection.fieldOne"
           ></v-text-field>
 
           <v-text-field
               v-model="integerFieldTwo"
-              :counter="10"
+              :counter="8"
               :rules="integerFieldRules"
               :label="collection.fieldTwo"
           ></v-text-field>
 
           <v-text-field
               v-model="integerFieldThree"
-              :counter="10"
+              :counter="8"
               :rules="integerFieldRules"
               :label="collection.fieldThree"
           ></v-text-field>
@@ -229,7 +229,7 @@ export default {
       integerFieldThree: '',
       integerFieldRules: [
         v => !!v || 'Field must not be empty',
-        v => (v && v.length <= 10) || 'Field must be less than 10 characters',
+        v => (v && v.length <= 8) || 'Field must be less than 8 characters',
         v => /^[0-9]+$/.test(v) || 'Only numbers allowed',
       ],
 

@@ -1,46 +1,50 @@
 <template>
-  <v-container class="w-25 my-16">
+  <v-container fluid class="mt-16">
 
-    <v-form>
-      <div class="text-center my-5">
-        <h2 class="font-weight-thin">Log In</h2>
-      </div>
+    <div class="text-center my-5">
+      <h2 class="font-weight-thin">Log In</h2>
+    </div>
 
-      <div class="text-center mb-1 text-orange-lighten-2">
-        <h3 class="font-weight-thin">{{ alert }}</h3>
-      </div>
+    <div class="text-center mb-1 text-orange-lighten-2">
+      <h3 class="font-weight-thin">{{ alert }}</h3>
+    </div>
 
-      <v-text-field
-          v-model="name"
-          label="Name"
-          required
-      ></v-text-field>
+    <v-row justify="center">
+      <v-col cols="4" sm="10" md="8" lg="4">
+        <v-form>
 
-      <v-text-field
-          v-model="password"
-          :append-inner-icon="show ? 'visibility' : 'visibility_off'"
-          @click:append-inner="() => (this.show = !this.show)"
-          :type="show ? 'text' : 'password'"
-          label="Password"
-          required
-      ></v-text-field>
+          <v-text-field
+              v-model="name"
+              label="Name"
+              required
+          ></v-text-field>
 
-      <v-btn
-          class="mr-4"
-          @click="login"
-      >
-        LOG IN
-      </v-btn>
+          <v-text-field
+              v-model="password"
+              :append-inner-icon="show ? 'visibility' : 'visibility_off'"
+              @click:append-inner="() => (this.show = !this.show)"
+              :type="show ? 'text' : 'password'"
+              label="Password"
+              required
+          ></v-text-field>
 
-      <v-btn
-          class="mr-4"
-          @click="$router.push('/registration')"
-      >
-        SING UP
-      </v-btn>
+          <v-btn
+              class="mr-4"
+              @click="login"
+          >
+            LOG IN
+          </v-btn>
 
-    </v-form>
+          <v-btn
+              class="mr-4"
+              @click="$router.push('/registration')"
+          >
+            SING UP
+          </v-btn>
 
+        </v-form>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -48,8 +52,8 @@
 import axios from "axios";
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
       show: false,
       name: '',
       password: '',
@@ -57,7 +61,7 @@ export default {
     }
   },
   methods: {
-    async login(){
+    async login() {
       try {
         const request = {
           username: this.name,
@@ -65,8 +69,7 @@ export default {
         }
         await axios.post('/login', request);
         window.location.href = '/'
-      }
-      catch (e){
+      } catch (e) {
         this.alert = e.response.data
       }
     }
