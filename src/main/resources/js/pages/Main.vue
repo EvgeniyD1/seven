@@ -18,8 +18,8 @@ export default {
   components: {ItemTableSimple, Clusters},
   data() {
     return {
-      collections: null,
-      items: null
+      collections: [],
+      items: []
     }
   },
   methods: {

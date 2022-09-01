@@ -2,13 +2,13 @@
 
   <v-card class="mx-auto">
     <div @click="$router.push('/collections/' + collection.id)">
-      <v-img
-          v-if="!collection.imgUrl"
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-      ></v-img>
-      <v-img v-else
-             :src=collection.imgUrl
-      ></v-img>
+<!--      <v-img-->
+<!--          v-if="!collection.imgUrl"-->
+<!--          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"-->
+<!--      ></v-img>-->
+<!--      <v-img v-else-->
+<!--             :src=collection.imgUrl-->
+<!--      ></v-img>-->
     </div>
     <v-card-title>
       <div class="text-orange-accent-4"
