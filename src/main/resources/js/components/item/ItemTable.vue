@@ -1,5 +1,5 @@
 <template>
-  <v-table>
+  <v-table v-if="itemProps[0].id">
     <thead>
     <tr>
       <th class="text-left" width="200">
