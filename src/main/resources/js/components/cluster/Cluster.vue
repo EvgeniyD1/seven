@@ -1,6 +1,6 @@
 <template>
 
-  <v-card class="mx-auto" v-if="collection.id">
+  <v-card class="mx-auto">
     <div @click="$router.push('/collections/' + collection.id)">
       <v-img
           v-if="!collection.imgUrl"
