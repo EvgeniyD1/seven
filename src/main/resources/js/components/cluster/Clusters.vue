@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="collections[0]?.id">
     <v-col :cols="isUserPage ? 6 : ''"
            :sm="isUserPage ? 6 : ''"
            :md="isUserPage ? 4 : ''"
