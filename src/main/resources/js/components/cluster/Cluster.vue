@@ -4,10 +4,10 @@
     <div @click="$router.push('/collections/' + collection.id)">
       <v-img
           v-if="!collection.imgUrl"
-          lazy-src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
       ></v-img>
       <v-img v-else
-             :lazy-src=collection.imgUrl
+             :src=collection.imgUrl
       ></v-img>
     </div>
     <v-card-title>

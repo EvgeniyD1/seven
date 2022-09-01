@@ -26,6 +26,7 @@ export default {
                     if (!response.data || response.data.content.length===0) {
                         this.showElements = false
                     } else {
+                        console.log(response.data)
                         this.elements = [...this.elements, ...response.data.content];
                         this.pageNumber = response.data.pageable.pageNumber + 1;
                         this.currentNumber = response.data.number;

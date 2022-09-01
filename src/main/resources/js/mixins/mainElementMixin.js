@@ -14,6 +14,7 @@ export default {
                 if (!response.data) {
                     this.$router.push('/non-existing')
                 } else {
+                    console.log(response.data)
                     this.mainElement = response.data;
                 }
             } catch (e) {
