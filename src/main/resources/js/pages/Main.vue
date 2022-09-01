@@ -1,7 +1,7 @@
 <template>
   <h3 class="mx-3 my-3 d-flex justify-center">The biggest collections</h3>
   <div class="mx-3 my-3">
-    <clusters :collections="collections"></clusters>
+    <clusters :collections-prop="collections"></clusters>
   </div>
   <h3 class="mx-3 my-3 d-flex justify-center">Latest updates</h3>
   <div class="mx-3 my-3">
