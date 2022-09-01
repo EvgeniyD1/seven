@@ -1,6 +1,6 @@
 <template>
 
-  <v-card class="mx-auto">
+  <v-card class="mx-auto" v-if="collection">
     <div @click="$router.push('/collections/' + collection.id)">
       <v-img
           v-if="!collection.imgUrl"
@@ -20,7 +20,6 @@
       <div>{{ collection.name }}</div>
     </v-card-title>
 
-    <!--    todo type-->
     <v-card-subtitle>
       {{ collection.topic }}
     </v-card-subtitle>
@@ -38,7 +37,8 @@ export default {
   props: {
     collection: {
       type: Object,
-      required: true
+      required: true,
+      default: null
     },
     isUserPage: {
       type: Boolean,

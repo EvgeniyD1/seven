@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="collections">
     <v-col :cols="isUserPage ? 6 : ''"
            :sm="isUserPage ? 6 : ''"
            :md="isUserPage ? 4 : ''"
@@ -20,7 +20,8 @@ export default {
   props: {
     collections: {
       type: Array,
-      required: true
+      required: true,
+      disabled: null
     },
     isUserPage: {
       type: Boolean,
