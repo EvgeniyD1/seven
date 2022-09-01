@@ -7,7 +7,7 @@
           src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
       ></v-img>
       <v-img v-else
-             :src=collection.imgUrl
+             :src="collection.imgUrl"
       ></v-img>
     </div>
     <v-card-title>
