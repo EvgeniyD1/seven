@@ -35,7 +35,7 @@
 <script>
 export default {
   props: {
-    collectionProp: {
+    collection: {
       type: Object,
       required: true
     },
@@ -44,14 +44,6 @@ export default {
       required: false,
       default: false
     }
-  },
-  data(){
-    return{
-      collection: {}
-    }
-  },
-  beforeMount() {
-    this.collection = this.collectionProp
   }
 }
 </script>

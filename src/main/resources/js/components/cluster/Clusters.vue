@@ -6,7 +6,7 @@
            :lg="isUserPage ? 3 : ''"
            v-for="collection in collections"
            :key="collection.id">
-      <cluster :collection-prop="collection" :is-user-page="isUserPage"></cluster>
+      <cluster :collection="collection" :is-user-page="isUserPage"></cluster>
     </v-col>
   </v-row>
 
@@ -18,7 +18,7 @@ import Cluster from "./Cluster.vue";
 export default {
   components: {Cluster},
   props: {
-    collectionsProp: {
+    collections: {
       type: Array,
       required: true
     },
@@ -27,14 +27,6 @@ export default {
       required: false,
       default: false
     }
-  },
-  data(){
-    return{
-      collections: []
-    }
-  },
-  beforeMount() {
-    this.collections = this.collectionsProp
   }
 }
 </script>
