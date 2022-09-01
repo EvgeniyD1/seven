@@ -1,10 +1,10 @@
 <template>
   <h3 class="mx-3 my-3 d-flex justify-center">The biggest collections</h3>
-  <div class="mx-3 my-3" v-if="collections">
+  <div class="mx-3 my-3">
     <clusters :collections="collections"></clusters>
   </div>
   <h3 class="mx-3 my-3 d-flex justify-center">Latest updates</h3>
-  <div class="mx-3 my-3" v-if="items">
+  <div class="mx-3 my-3">
     <item-table-simple :item-props="items"></item-table-simple>
   </div>
 </template>
