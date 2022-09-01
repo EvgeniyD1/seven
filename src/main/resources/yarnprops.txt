@@ -11,3 +11,9 @@ yarn add v-calendar@next
 ./gradlew build
 
 java -jar -Dsecret=*** build/libs/seven-0.0.1-SNAPSHOT.jar
+
+
+CommonsChunkPlugin('common'),
+DedupePlugin(),
+UglifyJsPlugin(),
+AggressiveMergingPlugin()
