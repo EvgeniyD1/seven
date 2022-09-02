@@ -13,15 +13,12 @@
 import Clusters from "../components/cluster/Clusters.vue";
 import axios from "axios";
 import ItemTableSimple from "../components/item/ItemTableSimple.vue";
+import collectionsMixin from "../mixins/collectionsMixin";
+import itemsMixin from "../mixins/itemsMixin";
 
 export default {
   components: {ItemTableSimple, Clusters},
-  data() {
-    return {
-      collections: [],
-      items: []
-    }
-  },
+  mixins: [collectionsMixin, itemsMixin],
   methods: {
     async loadCollections() {
       try {
