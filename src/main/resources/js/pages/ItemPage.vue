@@ -53,7 +53,6 @@ export default {
         } else {
           this.items.push(response.data);
           this.oneItem = response.data;
-          console.log(this.oneItem)
         }
       } catch (e) {
         console.log(e);

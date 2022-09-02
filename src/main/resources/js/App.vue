@@ -3,7 +3,9 @@
     <v-app-bar>
       <v-btn :icon="theme.global.name === 'dark' ? 'dark_mode' : 'light_mode'" @click="toggleTheme"></v-btn>
       <v-toolbar-title>
-        <v-btn variant="plain" @click="$router.push('/')">SEVEN</v-btn>
+        <router-link class="text-decoration-none text-orange-accent-4" to="/">
+          <v-btn variant="plain">SEVEN</v-btn>
+        </router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -17,14 +19,30 @@
                     @keyup.enter="$router.push('/search/' + search)"
                     variant="underlined"
       ></v-text-field>
-      <v-btn icon="search" @click="$router.push('/search/' + search)"></v-btn>
+
+      <router-link class="text-decoration-none text-orange-accent-4" :to="'/search/' + search">
+        <v-btn icon="search"></v-btn>
+      </router-link>
+
+      <router-link class="text-decoration-none text-orange-accent-4"
+                   :to="'/users/' + this.$store.state.profile"
+                   v-if="this.$store.state.profile"
+      >
+        <v-btn>{{ this.$store.state.profile }}</v-btn>
+      </router-link>
+
+      <router-link class="text-decoration-none text-orange-accent-4 mr-2"
+                   to="/login"
+                   v-if="!this.$store.state.profile"
+      >
+        <v-btn>LOG IN</v-btn>
+      </router-link>
 
       <v-btn v-if="this.$store.state.profile"
-             @click="$router.push('/users/' + this.$store.state.profile)">{{ this.$store.state.profile }}
-      </v-btn>
+             class="text-decoration-none text-orange-accent-4 mr-2"
+             @click="logout"
+      >LOG OUT</v-btn>
 
-      <v-btn v-if="!this.$store.state.profile" @click="$router.push('/login')">LOG IN</v-btn>
-      <v-btn v-else @click="logout">LOG OUT</v-btn>
     </v-app-bar>
 
     <v-main>
