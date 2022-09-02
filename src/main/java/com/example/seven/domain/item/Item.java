@@ -23,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -40,8 +41,16 @@ import java.util.Set;
                 @NamedAttributeNode("typeThree"),
                 @NamedAttributeNode("typeFour"),
                 @NamedAttributeNode("typeFive"),
-                @NamedAttributeNode("cluster"),
                 @NamedAttributeNode("tags"),
+                @NamedAttributeNode(value = "cluster", subgraph = "cluster_sub"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "cluster_sub",
+                        attributeNodes = {
+                                @NamedAttributeNode("user")
+                        }
+                )
         }
 )
 @Table(name = "items")

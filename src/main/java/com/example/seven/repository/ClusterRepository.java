@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ClusterRepository extends JpaRepository<Cluster, Long> {
 
@@ -16,4 +18,8 @@ public interface ClusterRepository extends JpaRepository<Cluster, Long> {
     @EntityGraph(attributePaths = {"user"})
     @Query("select clucter from Cluster clucter order by clucter.items.size desc")
     Page<Cluster> findAllOrderByItemsSize(Pageable pageable);
+
+    @EntityGraph(value = "cluster")
+    @Query("select cluster from Cluster cluster where cluster.id = ?1")
+    Optional<Cluster> findOneForDelete(Long id);
 }

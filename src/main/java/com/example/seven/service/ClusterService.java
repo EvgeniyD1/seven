@@ -72,7 +72,7 @@ public class ClusterService {
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     /*need to optimize*/
     public void delete(Long id) {
-        Cluster cluster = clusterRepository.findById(id).orElse(null);
+        Cluster cluster = clusterRepository.findOneForDelete(id).orElse(null);
         if (cluster != null) {
             cluster.getItems().forEach(item ->
                     item.getTags().forEach(tag ->

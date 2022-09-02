@@ -15,6 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -23,6 +26,24 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "clusters")
+@NamedEntityGraph(
+        name = "cluster",
+        attributeNodes = {
+                @NamedAttributeNode(value = "items", subgraph = "items_tags")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "items_tags",
+                        attributeNodes = {
+                                @NamedAttributeNode("tags"),
+                                @NamedAttributeNode("typeOne"),
+                                @NamedAttributeNode("typeTwo"),
+                                @NamedAttributeNode("typeThree"),
+                                @NamedAttributeNode("typeFour"),
+                                @NamedAttributeNode("typeFive")
+                        }
+                )
+        })
 public class Cluster implements Serializable {
 
     @Id
@@ -42,7 +63,7 @@ public class Cluster implements Serializable {
     @Enumerated(EnumType.STRING)
     private Topics topic;
 
-    @Column (name = "fields_type")
+    @Column(name = "fields_type")
     @Enumerated(EnumType.STRING)
     private FieldTypes fieldsType;
 

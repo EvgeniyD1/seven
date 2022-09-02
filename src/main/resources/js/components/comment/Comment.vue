@@ -17,9 +17,11 @@
 
       <v-col cols="2" sm="6" md="7" lg="10" align="start">
         <v-card-text>
-          <div class="text-orange-accent-4">
-            <b @click="$router.push('/users/' + comment.user.username)">{{ comment.user.username }}</b>
-            &nbsp;&nbsp;&nbsp;{{ comment.date }}
+          <div>
+            <router-link class="router-link" :to="'/users/' + comment.user.username">
+              {{ comment.user.username }}
+            </router-link>
+            &nbsp;&nbsp;{{ comment.date }}
           </div>
           <div>{{ comment.text }}</div>
         </v-card-text>
@@ -93,5 +95,12 @@ export default {
 </script>
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+  color: #db7f1d;
+}
 
+.router-link:hover {
+  text-decoration: underline;
+}
 </style>

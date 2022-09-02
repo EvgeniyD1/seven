@@ -17,20 +17,31 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in itemProps" :key="itemProps.id" >
+    <tr v-for="item in itemProps" :key="itemProps.id">
       <td>
-        <v-img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-               @click="$router.push('/items/' + item.id)"></v-img>
-        <v-img v-if="item.imgUrl" :src=item.imgUrl
-               @click="$router.push('/items/' + item.id)"></v-img>
+        <router-link :to="'/items/' + item.id">
+          <v-img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"></v-img>
+          <v-img v-if="item.imgUrl" :src=item.imgUrl></v-img>
+        </router-link>
       </td>
 
-      <td @click="$router.push('/items/' + item.id)">{{ item.name }}</td>
+      <td>
+        <router-link class="router-link" :to="'/items/' + item.id">
+          {{ item.name }}
+        </router-link>
+      </td>
 
-      <td @click="$router.push('/collections/' + item.cluster.id)">{{item.cluster.name}}</td>
+      <td>
+        <router-link class="router-link" :to="'/collections/' + item.cluster.id">
+          {{ item.cluster.name }}
+        </router-link>
+      </td>
 
-      <td @click="$router.push('/users/' + item.cluster.user.username)">{{item.cluster.user.username}}</td>
-
+      <td>
+        <router-link class="router-link" :to="'/users/' + item.cluster.user.username">
+          {{ item.cluster.user.username }}
+        </router-link>
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -38,8 +49,8 @@
 
 <script>
 export default {
-  props:{
-    itemProps:{
+  props: {
+    itemProps: {
       type: Array,
       required: true
     }
@@ -48,5 +59,11 @@ export default {
 </script>
 
 <style scoped>
-
+.router-link{
+  text-decoration: none;
+  color: #db7f1d;
+}
+.router-link:hover {
+  text-decoration: underline;
+}
 </style>

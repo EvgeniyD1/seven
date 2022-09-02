@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
@@ -32,4 +33,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @EntityGraph(value = "item")
     @Query("select item from Item item where item.id in :ids")
     Page<Item> fulTextSearch(Pageable pageable, @Param("ids") List<Long> ids);
+
+
+    @EntityGraph(attributePaths = {"tags", "typeOne", "typeTwo", "typeThree", "typeFour", "typeFive"})
+    @Query("select item from Item item where item.id = ?1")
+    Optional<Item> findOneForDelete(Long id);
 }

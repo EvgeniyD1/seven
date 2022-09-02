@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,6 +46,7 @@ public class Tag implements Serializable {
             joinColumns = {@JoinColumn(name = "tag_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")}
     )
+    @Fetch(FetchMode.SUBSELECT)
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Item> items = new HashSet<>();

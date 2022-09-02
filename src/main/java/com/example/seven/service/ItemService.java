@@ -68,13 +68,8 @@ public class ItemService {
         }
         Item item = new Item();
         item.setName(request.getName());
-
-        /*need to optimize*/
-        request.getTags().forEach(tag -> item.addTag(tagRepository.findByName(tag).orElse(new Tag(tag))));
-
         item.setFieldsType(FieldTypes.valueOf(request.getFieldsType()));
-        item.setCluster(cluster);
-        itemRepository.save(item);
+
         switch (request.getFieldsType()) {
             case "INTEGER": {
                 TypeOne typeOne = TypeOne.builder()
@@ -83,8 +78,7 @@ public class ItemService {
                         .fieldThree(Integer.valueOf(request.getFieldThree()))
                         .item(item).build();
                 item.setTypeOne(typeOne);
-                itemRepository.save(item);
-                return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                break;
             }
             case "TEXT": {
                 TypeTwo typeTwo = TypeTwo.builder()
@@ -93,8 +87,7 @@ public class ItemService {
                         .fieldThree(request.getFieldThree())
                         .item(item).build();
                 item.setTypeTwo(typeTwo);
-                itemRepository.save(item);
-                return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                break;
             }
             case "MULTILINE_TEXT": {
                 TypeThree typeThree = TypeThree.builder()
@@ -104,8 +97,7 @@ public class ItemService {
                         .item(item).build();
                 typeThree.setItem(item);
                 item.setTypeThree(typeThree);
-                itemRepository.save(item);
-                return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                break;
             }
             case "BOOLEAN": {
                 TypeFour typeFour = TypeFour.builder()
@@ -115,8 +107,7 @@ public class ItemService {
                         .item(item).build();
                 typeFour.setItem(item);
                 item.setTypeFour(typeFour);
-                itemRepository.save(item);
-                return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                break;
             }
             case "DATE": {
                 TypeFive typeFive = TypeFive.builder()
@@ -126,11 +117,16 @@ public class ItemService {
                         .item(item).build();
                 typeFive.setItem(item);
                 item.setTypeFive(typeFive);
-                itemRepository.save(item);
-                return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                break;
             }
             default: return null;
         }
+        item.setCluster(cluster);
+
+        /*need to optimize*/
+        request.getTags().forEach(tag -> item.addTag(tagRepository.findByName(tag).orElse(new Tag(tag))));
+        itemRepository.save(item);
+        return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
     }
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
@@ -143,39 +139,36 @@ public class ItemService {
                     item.getTypeOne().setFieldOne(Integer.valueOf(request.getFieldOne()));
                     item.getTypeOne().setFieldTwo(Integer.valueOf(request.getFieldTwo()));
                     item.getTypeOne().setFieldThree(Integer.valueOf(request.getFieldThree()));
-                    itemRepository.save(item);
-                    return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                    break;
                 }
                 case TEXT: {
                     item.getTypeTwo().setFieldOne(request.getFieldOne());
                     item.getTypeTwo().setFieldTwo(request.getFieldTwo());
                     item.getTypeTwo().setFieldThree(request.getFieldThree());
-                    itemRepository.save(item);
-                    return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                    break;
                 }
                 case MULTILINE_TEXT: {
                     item.getTypeThree().setFieldOne(request.getFieldOne());
                     item.getTypeThree().setFieldTwo(request.getFieldTwo());
                     item.getTypeThree().setFieldThree(request.getFieldThree());
-                    itemRepository.save(item);
-                    return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                    break;
                 }
                 case BOOLEAN: {
                     item.getTypeFour().setFieldOne(Boolean.valueOf(request.getFieldOne()));
                     item.getTypeFour().setFieldTwo(Boolean.valueOf(request.getFieldTwo()));
                     item.getTypeFour().setFieldThree(Boolean.valueOf(request.getFieldThree()));
-                    itemRepository.save(item);
-                    return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                    break;
                 }
                 case DATE: {
                     item.getTypeFive().setFieldOne(new Date(request.getFieldOne()));
                     item.getTypeFive().setFieldTwo(new Date(request.getFieldTwo()));
                     item.getTypeFive().setFieldThree(new Date(request.getFieldThree()));
-                    itemRepository.save(item);
-                    return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
+                    break;
                 }
                 default: return null;
             }
+            itemRepository.save(item);
+            return ItemMapper.ITEM_MAPPER.itemToItemDto(item);
         }
         return null;
     }
@@ -194,7 +187,7 @@ public class ItemService {
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void delete(Long id) {
-        Item item = itemRepository.findById(id).orElse(null);
+        Item item = itemRepository.findOneForDelete(id).orElse(null);
         if (item != null) {
             item.getTags().forEach(tag -> tag.getItems().remove(item));
             itemRepository.delete(item);

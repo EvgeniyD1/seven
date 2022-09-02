@@ -1,23 +1,22 @@
 <template>
 
   <v-card class="mx-auto">
-    <div @click="$router.push('/collections/' + collection.id)">
-      <v-img
-          v-if="!collection.imgUrl"
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-      ></v-img>
-      <v-img v-else
-             :src="collection.imgUrl"
-      ></v-img>
-    </div>
+
+    <router-link class="router-link" :to="'/collections/' + collection.id">
+      <v-img v-if="!collection.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"></v-img>
+      <v-img v-else :src="collection.imgUrl"></v-img>
+    </router-link>
+
     <v-card-title>
-      <div class="text-orange-accent-4"
-           @click="$router.push('/users/' + collection.user.username)"
-           v-if="!isUserPage"
-      >
+      <router-link class="router-link" :to="'/users/' + collection.user.username" v-if="!isUserPage">
         {{ collection.user.username }}
+      </router-link>
+
+      <div>
+        <router-link class="router-link" :to="'/collections/' + collection.id">
+          {{ collection.name }}
+        </router-link>
       </div>
-      <div>{{ collection.name }}</div>
     </v-card-title>
 
     <v-card-subtitle>
@@ -49,5 +48,11 @@ export default {
 </script>
 
 <style scoped>
-
+.router-link{
+  text-decoration: none;
+  color: #db7f1d;
+}
+.router-link:hover {
+  text-decoration: underline;
+}
 </style>

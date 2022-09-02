@@ -18,34 +18,46 @@
         Tags
       </th>
       <th class="text-left">
-        {{collectionProps.fieldOne}}
+        {{ collectionProps.fieldOne }}
       </th>
       <th class="text-left">
-        {{collectionProps.fieldTwo}}
+        {{ collectionProps.fieldTwo }}
       </th>
       <th class="text-left">
-        {{collectionProps.fieldThree}}
+        {{ collectionProps.fieldThree }}
       </th>
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in itemProps" :key="itemProps.id" >
+    <tr v-for="item in itemProps" :key="itemProps.id">
       <td>
-        <v-img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-               @click="$router.push('/items/' + item.id)"></v-img>
-        <v-img v-if="item.imgUrl" :src=item.imgUrl
-               @click="$router.push('/items/' + item.id)"></v-img>
+        <router-link :to="'/items/' + item.id">
+          <v-img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"></v-img>
+          <v-img v-if="item.imgUrl" :src=item.imgUrl></v-img>
+        </router-link>
       </td>
 
-      <td @click="$router.push('/users/' + item.cluster.user.username)"
-          v-if="!collectionPage"
-      >{{item.cluster.user.username}}</td>
+      <td v-if="!collectionPage">
+        <router-link class="router-link" :to="'/users/' + item.cluster.user.username">
+          {{ item.cluster.user.username }}
+        </router-link>
+      </td>
 
-      <td @click="$router.push('/collections/' + item.cluster.id)"
-          v-if="!collectionPage"
-      >{{item.cluster.name}}</td>
+      <td v-if="!collectionPage">
+        <router-link class="router-link" :to="'/collections/' + item.cluster.id">
+          {{ item.cluster.name }}
+        </router-link>
+      </td>
 
-      <td>{{ item.name }}</td>
+      <td>
+        <div v-if="collectionPage">
+          <router-link class="router-link" :to="'/items/' + item.id">
+            {{ item.name }}
+          </router-link>
+        </div>
+        <div v-else>{{ item.name }}</div>
+      </td>
+
       <td>{{ this.getTags(item.tags) }}</td>
 
       <td v-if="item.fieldsType==='INTEGER'">{{ item.typeOne.fieldOne }}</td>
@@ -74,12 +86,12 @@
 
 <script>
 export default {
-  props:{
+  props: {
     collectionProps: {
       type: Object,
       required: true
     },
-    itemProps:{
+    itemProps: {
       type: Array,
       required: true
     },
@@ -90,7 +102,7 @@ export default {
     }
   },
   methods: {
-    getTags(tags){
+    getTags(tags) {
       let result = '';
       for (let tag of tags) {
         result = result + '  #' + tag.name;
@@ -102,5 +114,12 @@ export default {
 </script>
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+  color: #db7f1d;
+}
 
+.router-link:hover {
+  text-decoration: underline;
+}
 </style>
