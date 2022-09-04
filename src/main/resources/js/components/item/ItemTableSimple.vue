@@ -20,8 +20,12 @@
     <tr v-for="item in itemProps" :key="itemProps.id">
       <td>
         <router-link :to="'/items/' + item.id">
-          <v-img v-if="!item.imgUrl" :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>
-          <v-img v-else :src=item.imgUrl></v-img>
+          <div v-if="!item.imgUrl">
+            <v-img :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>
+          </div>
+          <div v-else>
+            <v-img :src=item.imgUrl></v-img>
+          </div>
         </router-link>
       </td>
 
@@ -59,10 +63,11 @@ export default {
 </script>
 
 <style scoped>
-.router-link{
+.router-link {
   text-decoration: none;
   color: #db7f1d;
 }
+
 .router-link:hover {
   text-decoration: underline;
 }
