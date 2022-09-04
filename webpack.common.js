@@ -1,5 +1,5 @@
 const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
+const {VueLoaderPlugin} = require('vue-loader');
 
 module.exports = {
     entry: path.join(__dirname, 'src', 'main', 'resources', 'js', 'main.js'),
@@ -37,6 +37,14 @@ module.exports = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                    },
+                ]
             }
         ],
 
