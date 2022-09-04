@@ -20,8 +20,10 @@
     <tr v-for="item in itemProps" :key="itemProps.id">
       <td>
         <router-link :to="'/items/' + item.id">
-          <v-img v-if="item.imgUrl" :src=item.imgUrl></v-img>
-          <v-img v-else :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>
+<!--          <v-img v-if="!item.imgUrl" :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>-->
+<!--          <v-img v-if="item.imgUrl" :src=item.imgUrl></v-img>-->
+          <img v-if="!item.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" style="max-height: 120px">
+          <img v-else :src="item.imgUrl" style="max-height: 120px">
         </router-link>
       </td>
 

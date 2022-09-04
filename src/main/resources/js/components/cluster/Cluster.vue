@@ -3,8 +3,10 @@
   <v-card class="mx-auto">
 
     <router-link class="router-link" :to="'/collections/' + collection.id">
-      <v-img v-if="collection.imgUrl" :src="collection.imgUrl"></v-img>
-      <v-img v-else :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>
+      <!--      <v-img v-if="!collection.imgUrl" :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>-->
+      <!--      <v-img v-else :src="collection.imgUrl"></v-img>-->
+      <img v-if="!collection.imgUrl" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" style="max-height: 200px">
+      <img v-else :src="collection.imgUrl" style="max-height: 200px">
     </router-link>
 
     <v-card-title>
@@ -48,10 +50,11 @@ export default {
 </script>
 
 <style scoped>
-.router-link{
+.router-link {
   text-decoration: none;
   color: #db7f1d;
 }
+
 .router-link:hover {
   text-decoration: underline;
 }

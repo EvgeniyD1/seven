@@ -7,11 +7,12 @@
                   v-if="!comment.user.imgUrl"
                   size="64px"
           ></v-icon>
-          <v-img v-else
-                 alt="Avatar"
-                 size="64px"
-                 :src="comment.user.imgUrl">
-          </v-img>
+<!--          <v-img v-else-->
+<!--                 alt="Avatar"-->
+<!--                 size="64px"-->
+<!--                 :src="comment.user.imgUrl">-->
+<!--          </v-img>-->
+          <img v-else :src="comment.user.imgUrl" style="height: 64px; width: 64px">
         </v-avatar>
       </v-col>
 
