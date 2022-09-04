@@ -2,17 +2,17 @@
   <v-card class="mb-1">
     <v-row class="mx-7 mb-0" align="start">
       <v-col cols="0" sm="0" md="0" lg="0" justify="center" align="start" class="mt-6">
-        <v-avatar size="x-large" @click="$router.push('/users/' + comment.user.username)">
-          <v-icon icon="account_circle"
-                  v-if="!comment.user.imgUrl"
-                  size="64px"
-          ></v-icon>
-          <v-img v-else
-                 alt="Avatar"
-                 size="64px"
-                 :src="comment.user.imgUrl">
-          </v-img>
-        </v-avatar>
+<!--        <v-avatar size="x-large" @click="$router.push('/users/' + comment.user.username)">-->
+<!--          <v-icon icon="account_circle"-->
+<!--                  v-if="!comment.user.imgUrl"-->
+<!--                  size="64px"-->
+<!--          ></v-icon>-->
+<!--          <v-img v-else-->
+<!--                 alt="Avatar"-->
+<!--                 size="64px"-->
+<!--                 :src="comment.user.imgUrl">-->
+<!--          </v-img>-->
+<!--        </v-avatar>-->
       </v-col>
 
       <v-col cols="2" sm="6" md="7" lg="10" align="start">
