@@ -3,17 +3,17 @@
 
     <v-row align="center">
       <v-col cols="12" sm="3" md="3" lg="3" justify="center" align="center">
-<!--        <v-avatar size="x-large" class="ml-3">-->
-<!--          <v-icon icon="account_circle"-->
-<!--                  v-if="!user.imgUrl"-->
-<!--                  size="64px"-->
-<!--          ></v-icon>-->
-<!--          <v-img v-else-->
-<!--                 alt="Avatar"-->
-<!--                 size="64px"-->
-<!--                 :src=user.imgUrl>-->
-<!--          </v-img>-->
-<!--        </v-avatar>-->
+        <v-avatar size="x-large" class="ml-3">
+          <v-icon icon="account_circle"
+                  v-if="!user.imgUrl"
+                  size="64px"
+          ></v-icon>
+          <v-img v-else
+                 alt="Avatar"
+                 size="64px"
+                 :src="user.imgUrl">
+          </v-img>
+        </v-avatar>
       </v-col>
 
       <v-col cols="12" sm="9" md="9" lg="9">

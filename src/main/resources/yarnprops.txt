@@ -17,3 +17,5 @@ CommonsChunkPlugin('common'),
 DedupePlugin(),
 UglifyJsPlugin(),
 AggressiveMergingPlugin()
+
+yarn add -D file-loader
