@@ -3,8 +3,8 @@
   <v-card class="mx-auto">
 
     <router-link class="router-link" :to="'/collections/' + collection.id">
-<!--      <v-img v-if="!collection.imgUrl" :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>-->
       <v-img v-if="collection.imgUrl" :src="collection.imgUrl"></v-img>
+      <v-img v-else :src="'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'"></v-img>
     </router-link>
 
     <v-card-title>
